@@ -70,36 +70,54 @@ const UserProfile: React.FC = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-6 text-center">My Profile</h2>
+    <div className="max-w-xl mx-auto bg-white p-8 rounded-xl shadow-airbnb border border-airbnb-gray-border font-airbnb">
+      <div className="mb-8 text-center">
+        <div className="w-20 h-20 bg-airbnb-background rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg className="w-10 h-10 text-airbnb-pink" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+          </svg>
+        </div>
+        <h2 className="text-2xl font-semibold text-airbnb-dark-gray">My Profile</h2>
+        <p className="text-airbnb-light-gray mt-2">Manage your personal information</p>
+      </div>
       
       {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-          <span>{error}</span>
+        <div className="bg-red-50 border border-red-100 text-red-600 px-4 py-3 rounded-lg mb-6 flex items-start">
+          <svg className="w-5 h-5 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <div className="flex-1">{error}</div>
           <button 
             onClick={() => setError(null)}
-            className="float-right text-red-700"
+            className="text-red-600 hover:text-red-800 ml-2"
           >
-            &times;
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
           </button>
         </div>
       )}
       
       {success && (
-        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-          <span>{success}</span>
+        <div className="bg-green-50 border border-green-100 text-green-600 px-4 py-3 rounded-lg mb-6 flex items-start">
+          <svg className="w-5 h-5 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+          </svg>
+          <div className="flex-1">{success}</div>
           <button 
             onClick={() => setSuccess(null)}
-            className="float-right text-green-700"
+            className="text-green-600 hover:text-green-800 ml-2"
           >
-            &times;
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
           </button>
         </div>
       )}
       
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label htmlFor="name" className="block text-gray-700 font-medium mb-2">
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div>
+          <label htmlFor="name" className="block text-sm font-medium mb-2 text-airbnb-dark-gray">
             Full Name
           </label>
           <input
@@ -107,60 +125,77 @@ const UserProfile: React.FC = () => {
             id="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-3 border border-airbnb-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-airbnb-pink"
             required
           />
         </div>
         
-        <div className="mb-4">
-          <label htmlFor="email" className="block text-gray-700 font-medium mb-2">
+        <div>
+          <label htmlFor="email" className="block text-sm font-medium mb-2 text-airbnb-dark-gray">
             Email
           </label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required 
-            readOnly
-          />
+          <div className="relative">
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-3 border border-airbnb-gray-border rounded-lg bg-airbnb-background focus:outline-none cursor-not-allowed"
+              required 
+              readOnly
+            />
+            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+              <svg className="h-5 w-5 text-airbnb-light-gray" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+            </div>
+          </div>
+          <p className="text-xs text-airbnb-light-gray mt-1">Email cannot be changed</p>
         </div>
         
-        <div className="mb-4">
-          <label htmlFor="password" className="block text-gray-700 font-medium mb-2">
-            New Password <span className="text-gray-500 text-sm">(leave blank to keep current)</span>
-          </label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+        <div className="pt-6 border-t border-airbnb-gray-border">
+          <h3 className="text-lg font-medium text-airbnb-dark-gray mb-4">Change Password</h3>
+          
+          <div className="space-y-6">
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium mb-2 text-airbnb-dark-gray">
+                New Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-3 border border-airbnb-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-airbnb-pink"
+                placeholder="Leave blank to keep current password"
+              />
+            </div>
+            
+            <div>
+              <label htmlFor="confirmPassword" className="block text-sm font-medium mb-2 text-airbnb-dark-gray">
+                Confirm New Password
+              </label>
+              <input
+                type="password"
+                id="confirmPassword"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className={`w-full px-4 py-3 border border-airbnb-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-airbnb-pink ${!password ? 'bg-airbnb-background cursor-not-allowed' : ''}`}
+                disabled={!password}
+              />
+            </div>
+          </div>
         </div>
         
-        <div className="mb-6">
-          <label htmlFor="confirmPassword" className="block text-gray-700 font-medium mb-2">
-            Confirm New Password
-          </label>
-          <input
-            type="password"
-            id="confirmPassword"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            disabled={!password}
-          />
+        <div className="pt-6">
+          <button
+            type="submit"
+            className="w-full bg-gradient-to-r from-airbnb-pink to-airbnb-red text-white py-3 rounded-lg font-medium hover:from-airbnb-red hover:to-airbnb-pink transition-colors disabled:opacity-70"
+            disabled={loading}
+          >
+            {loading ? 'Updating...' : 'Save Changes'}
+          </button>
         </div>
-        
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-blue-300"
-          disabled={loading}
-        >
-          {loading ? 'Updating...' : 'Update Profile'}
-        </button>
       </form>
     </div>
   );

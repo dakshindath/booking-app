@@ -60,7 +60,12 @@ const Listings: React.FC = () => {
   
   const handleNumberInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: parseFloat(value) || 0 });
+    // For price field, store as string to maintain the input value as typed
+    if (name === 'price') {
+      setFormData({ ...formData, [name]: value });
+    } else {
+      setFormData({ ...formData, [name]: parseFloat(value) || 0 });
+    }
   };
   
   const handleAddImage = () => {
@@ -117,8 +122,7 @@ const Listings: React.FC = () => {
     setFormError(null);
     setFormSuccess(null);
   };
-  
-  const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormError(null);
     setFormSuccess(null);
@@ -189,19 +193,31 @@ const Listings: React.FC = () => {
   
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <div className="text-xl">Loading...</div>
+      <div className="flex justify-center items-center h-64 font-airbnb">
+        <div className="animate-pulse flex space-x-4">
+          <div className="rounded-full bg-airbnb-gray-border h-10 w-10"></div>
+          <div className="flex-1 space-y-4 py-1">
+            <div className="h-4 bg-airbnb-gray-border rounded w-3/4"></div>
+            <div className="space-y-2">
+              <div className="h-4 bg-airbnb-gray-border rounded"></div>
+              <div className="h-4 bg-airbnb-gray-border rounded w-5/6"></div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
   
   if (error) {
     return (
-      <div className="text-center text-red-600 p-6">
-        <p>{error}</p>
+      <div className="text-center p-6 font-airbnb">
+        <svg className="w-16 h-16 mx-auto text-airbnb-pink mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <p className="text-airbnb-dark-gray mb-4">{error}</p>
         <button 
           onClick={() => window.location.reload()} 
-          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+          className="px-6 py-3 bg-gradient-to-r from-airbnb-pink to-airbnb-red text-white font-medium rounded-lg hover:from-airbnb-red hover:to-airbnb-pink transition-colors"
         >
           Retry
         </button>
@@ -210,142 +226,172 @@ const Listings: React.FC = () => {
   }
   
   return (
-    <div>
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Manage Listings</h1>
+    <div className="font-airbnb max-w-6xl mx-auto">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+        <h1 className="text-2xl font-semibold text-airbnb-dark-gray">Manage Listings</h1>
         <button
           onClick={openCreateForm}
-          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+          className="mt-4 md:mt-0 inline-flex items-center px-6 py-3 bg-gradient-to-r from-airbnb-pink to-airbnb-red text-white font-medium rounded-lg hover:from-airbnb-red hover:to-airbnb-pink transition-colors"
         >
+          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          </svg>
           Add New Listing
         </button>
       </div>
       
       {listings.length === 0 ? (
-        <div className="text-center py-8 bg-white rounded-lg shadow">
-          <p className="text-gray-500 mb-4">No listings found.</p>
+        <div className="text-center py-16 bg-white rounded-xl shadow-airbnb border border-airbnb-gray-border">
+          <svg className="w-16 h-16 mx-auto text-airbnb-light-gray mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
+          <p className="text-airbnb-dark-gray font-medium mb-2">No listings found</p>
+          <p className="text-airbnb-light-gray mb-6">Create your first property listing</p>
           <button
             onClick={openCreateForm}
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+            className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-airbnb-pink to-airbnb-red text-white font-medium rounded-lg hover:from-airbnb-red hover:to-airbnb-pink transition-colors"
           >
+            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
             Create Your First Listing
           </button>
         </div>
       ) : (
-        <div className="bg-white rounded-lg shadow overflow-hidden">
-          <table className="min-w-full">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Listing</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200">
-              {listings.map((listing) => (
-                <tr key={listing._id}>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <div className="h-10 w-10 flex-shrink-0 mr-4">
-                        {listing.images && listing.images.length > 0 ? (
-                          <img src={listing.images[0]} alt="" className="h-10 w-10 rounded-full object-cover" />
-                        ) : (
-                          <div className="h-10 w-10 rounded-full bg-gray-200"></div>
-                        )}
-                      </div>
-                      <div>
-                        <div className="font-medium text-gray-900">{listing.title}</div>
-                      </div>
+        <div className="grid grid-cols-1 gap-6 mb-10">
+          {listings.map((listing) => (            <div key={listing._id} className="bg-white rounded-xl shadow-sm hover:shadow-airbnb transition-shadow border border-airbnb-gray-border overflow-hidden">
+              <div className="md:flex">
+                <div className="md:w-48 h-48 md:h-48 relative flex-shrink-0 bg-airbnb-background overflow-hidden">
+                  {listing.images && listing.images.length > 0 ? (
+                    <div className="h-full w-full">
+                      <img 
+                        src={listing.images[0]} 
+                        alt={listing.title}
+                        className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = 'https://via.placeholder.com/150?text=No+Image';
+                        }}
+                      />
                     </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-gray-500">{listing.location}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-gray-500">₹{listing.price}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <button
-                      onClick={() => openEditForm(listing)}
-                      className="text-blue-600 hover:text-blue-900 mr-4"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDelete(listing._id)}
-                      className="text-red-600 hover:text-red-900"
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-airbnb-background">
+                      <svg className="w-10 h-10 text-airbnb-light-gray" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                  )}
+                </div>              <div className="flex-grow px-6 py-4">
+                <h3 className="text-lg font-semibold text-airbnb-dark-gray">{listing.title}</h3>
+                <p className="text-airbnb-light-gray mb-2">{listing.location}</p>
+                <p className="text-airbnb-dark-gray font-medium">₹{listing.price.toLocaleString()} / night</p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {listing.amenities.slice(0, 3).map((amenity, index) => (
+                    <span key={index} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-airbnb-background text-airbnb-dark-gray">
+                      {amenity}
+                    </span>
+                  ))}
+                  {listing.amenities.length > 3 && (
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-airbnb-background text-airbnb-dark-gray">
+                      +{listing.amenities.length - 3} more
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              <div className="md:w-48 flex-shrink-0 flex flex-row md:flex-col gap-2 p-4 md:p-6 md:border-l md:border-airbnb-gray-border bg-white">
+                <button
+                  onClick={() => openEditForm(listing)}
+                  className="flex-1 py-1 px-1 md:px-0 text-airbnb-pink border border-airbnb-pink rounded-lg hover:bg-airbnb-pink hover:text-white transition-colors text-sm font-medium"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => handleDelete(listing._id)}
+                  className="flex-1 py-1 px-1 md:px-0 text-airbnb-light-gray border border-airbnb-light-gray rounded-lg hover:bg-airbnb-light-gray hover:text-white transition-colors text-sm font-medium"
+                >
+                  Delete
+                </button>
+              </div>
+              </div>
+            </div>
+          ))}
         </div>
       )}
       
       {/* Listing Form Modal */}
       {showForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg shadow-lg w-full max-w-3xl max-h-screen overflow-y-auto">
+          <div className="bg-white rounded-xl shadow-airbnb w-full max-w-3xl max-h-screen overflow-y-auto">
             <div className="p-6">
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-bold">
+                <h2 className="text-xl font-semibold text-airbnb-dark-gray">
                   {editingListing ? 'Edit Listing' : 'Create New Listing'}
                 </h2>
                 <button
                   onClick={closeForm}
-                  className="text-gray-500 hover:text-gray-700"
+                  className="text-airbnb-light-gray hover:text-airbnb-dark-gray transition-colors"
                 >
-                  ✕
+                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
                 </button>
               </div>
               
               {formError && (
-                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                <div className="bg-red-50 border border-red-100 text-red-600 px-4 py-3 rounded-lg mb-6 flex items-start">
+                  <svg className="w-5 h-5 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
                   <span>{formError}</span>
                 </div>
               )}
               
               {formSuccess && (
-                <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                <div className="bg-green-50 border border-green-100 text-green-600 px-4 py-3 rounded-lg mb-6 flex items-start">
+                  <svg className="w-5 h-5 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
                   <span>{formSuccess}</span>
                 </div>
               )}
               
-              <form onSubmit={handleSubmit}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-gray-700 font-medium mb-2">Title</label>
+                    <label className="block text-sm font-medium mb-2 text-airbnb-dark-gray">Listing Title</label>
                     <input
                       type="text"
                       name="title"
                       value={formData.title}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-2 border rounded-md"
+                      className="w-full px-4 py-3 border border-airbnb-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-airbnb-pink"
+                      placeholder="Enter property title"
                       required
                     />
                   </div>
                   
                   <div>
-                    <label className="block text-gray-700 font-medium mb-2">Location</label>
+                    <label className="block text-sm font-medium mb-2 text-airbnb-dark-gray">Location</label>
                     <input
                       type="text"
                       name="location"
                       value={formData.location}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-2 border rounded-md"
+                      className="w-full px-4 py-3 border border-airbnb-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-airbnb-pink"
+                      placeholder="Enter location"
                       required
                     />
                   </div>
                 </div>
                 
-                <div className="mb-4">
-                  <label className="block text-gray-700 font-medium mb-2">Price per night (₹)</label>
+                <div>
+                  <label className="block text-sm font-medium mb-2 text-airbnb-dark-gray">Price per night (₹)</label>
                   <input
                     type="number"
                     name="price"
                     value={formData.price}
                     onChange={handleNumberInputChange}
-                    className="w-full px-4 py-2 border rounded-md"
+                    className="w-full px-4 py-3 border border-airbnb-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-airbnb-pink"
                     placeholder="0.00"
                     // min="0"
                     // step="0.01"
@@ -353,57 +399,57 @@ const Listings: React.FC = () => {
                   />
                 </div>
                 
-                <div className="mb-4">
-                  <label className="block text-gray-700 font-medium mb-2">Description</label>
+                <div>
+                  <label className="block text-sm font-medium mb-2 text-airbnb-dark-gray">Description</label>
                   <textarea
                     name="description"
                     value={formData.description}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border rounded-md h-32"
+                    className="w-full px-4 py-3 border border-airbnb-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-airbnb-pink h-32"
+                    placeholder="Describe your property"
                     required
                   ></textarea>
                 </div>
                 
-                <div className="mb-4">
-                  <label className="block text-gray-700 font-medium mb-2">Amenities (comma-separated)</label>
+                <div>
+                  <label className="block text-sm font-medium mb-2 text-airbnb-dark-gray">Amenities (comma-separated)</label>
                   <input
                     type="text"
                     name="amenities"
                     value={formData.amenities}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border rounded-md"
+                    className="w-full px-4 py-3 border border-airbnb-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-airbnb-pink"
                     placeholder="WiFi, Kitchen, Pool, etc."
                   />
                 </div>
                 
-                <div className="mb-4">
-                  <label className="block text-gray-700 font-medium mb-2">Images</label>
+                <div>
+                  <label className="block text-sm font-medium mb-2 text-airbnb-dark-gray">Images</label>
                   <div className="flex">
                     <input
                       type="text"
                       name="imageUrl"
                       value={formData.imageUrl}
                       onChange={handleInputChange}
-                      className="flex-grow px-4 py-2 border rounded-l-md"
+                      className="flex-grow px-4 py-3 border border-r-0 border-airbnb-gray-border rounded-l-lg focus:outline-none focus:ring-2 focus:ring-airbnb-pink"
                       placeholder="Enter image URL"
                     />
                     <button
                       type="button"
                       onClick={handleAddImage}
-                      className="px-4 py-2 bg-blue-600 text-white rounded-r-md hover:bg-blue-700"
+                      className="px-4 py-3 bg-gradient-to-r from-airbnb-pink to-airbnb-red text-white rounded-r-lg hover:from-airbnb-red hover:to-airbnb-pink transition-colors"
                     >
                       Add
                     </button>
                   </div>
-                  
-                  {formData.images.length > 0 && (
+                    {formData.images.length > 0 && (
                     <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                       {formData.images.map((image, index) => (
-                        <div key={index} className="relative group">
+                        <div key={index} className="relative group rounded-lg overflow-hidden shadow-sm h-24">
                           <img
                             src={image}
                             alt=""
-                            className="h-24 w-full object-cover rounded-md"
+                            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                             onError={(e) => {
                               (e.target as HTMLImageElement).src = 'https://via.placeholder.com/150?text=Invalid+Image';
                             }}
@@ -411,9 +457,11 @@ const Listings: React.FC = () => {
                           <button
                             type="button"
                             onClick={() => handleRemoveImage(index)}
-                            className="absolute top-1 right-1 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                            className="absolute top-2 right-2 bg-white text-airbnb-red rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
                           >
-                            ✕
+                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
                           </button>
                         </div>
                       ))}
@@ -421,19 +469,19 @@ const Listings: React.FC = () => {
                   )}
                 </div>
                 
-                <div className="flex justify-end space-x-4 mt-6">
+                <div className="flex justify-end space-x-4 mt-8 pt-6 border-t border-airbnb-gray-border">
                   <button
                     type="button"
                     onClick={closeForm}
-                    className="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50"
+                    className="px-6 py-3 border border-airbnb-gray-border text-airbnb-dark-gray rounded-lg hover:bg-airbnb-background transition-colors"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                    className="px-6 py-3 bg-gradient-to-r from-airbnb-pink to-airbnb-red text-white rounded-lg hover:from-airbnb-red hover:to-airbnb-pink transition-colors"
                   >
-                    {editingListing ? 'Update Listing' : 'Create Listing'}
+                    {editingListing ? 'Save Changes' : 'Create Listing'}
                   </button>
                 </div>
               </form>

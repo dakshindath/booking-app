@@ -121,19 +121,31 @@ const Bookings: React.FC = () => {
   
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <div className="text-xl">Loading...</div>
+      <div className="flex justify-center items-center h-64 font-airbnb">
+        <div className="animate-pulse flex space-x-4">
+          <div className="rounded-full bg-airbnb-gray-border h-10 w-10"></div>
+          <div className="flex-1 space-y-4 py-1">
+            <div className="h-4 bg-airbnb-gray-border rounded w-3/4"></div>
+            <div className="space-y-2">
+              <div className="h-4 bg-airbnb-gray-border rounded"></div>
+              <div className="h-4 bg-airbnb-gray-border rounded w-5/6"></div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
   
   if (error) {
     return (
-      <div className="text-center text-red-600 p-6">
-        <p>{error}</p>
+      <div className="text-center p-6 font-airbnb">
+        <svg className="w-16 h-16 mx-auto text-airbnb-pink mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <p className="text-airbnb-dark-gray mb-4">{error}</p>
         <button 
           onClick={() => window.location.reload()} 
-          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+          className="px-6 py-3 bg-gradient-to-r from-airbnb-pink to-airbnb-red text-white font-medium rounded-lg hover:from-airbnb-red hover:to-airbnb-pink transition-colors"
         >
           Retry
         </button>
@@ -142,28 +154,37 @@ const Bookings: React.FC = () => {
   }
   
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-6">Manage Bookings</h1>
+    <div className="font-airbnb max-w-6xl mx-auto">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+        <h1 className="text-2xl font-semibold text-airbnb-dark-gray">Manage Bookings</h1>
+      </div>
       
-      <div className="mb-6 bg-white rounded-lg shadow p-4">
+      <div className="mb-8 bg-white rounded-xl shadow-airbnb p-6 border border-airbnb-gray-border">
         <div className="flex flex-col md:flex-row gap-4">
           <div className="flex-grow">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Search</label>
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search by user, email, or listing"
-              className="w-full p-2 border rounded-md"
-            />
+            <label className="block text-sm font-medium text-airbnb-dark-gray mb-1">Search</label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg className="h-5 w-5 text-airbnb-light-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Search by user, email, or listing"
+                className="w-full pl-10 pr-4 py-3 border border-airbnb-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-airbnb-pink"
+              />
+            </div>
           </div>
           
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+          <div className="w-full md:w-48">
+            <label className="block text-sm font-medium text-airbnb-dark-gray mb-1">Status</label>
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full p-2 border rounded-md"
+              className="w-full px-4 py-3 border border-airbnb-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-airbnb-pink"
             >
               <option value="all">All Statuses</option>
               <option value="confirmed">Confirmed</option>
@@ -175,55 +196,59 @@ const Bookings: React.FC = () => {
       </div>
       
       {filteredBookings.length === 0 ? (
-        <div className="text-center py-8 bg-white rounded-lg shadow">
-          <p className="text-gray-500">No bookings found.</p>
+        <div className="text-center py-12 bg-white rounded-xl shadow-airbnb border border-airbnb-gray-border">
+          <svg className="w-16 h-16 mx-auto text-airbnb-light-gray mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          <p className="text-airbnb-dark-gray font-medium mb-2">No bookings found</p>
+          <p className="text-airbnb-light-gray">Try adjusting your search or filter</p>
         </div>
       ) : (
-        <div className="bg-white rounded-lg shadow overflow-hidden">
+        <div className="bg-white rounded-xl shadow-airbnb overflow-hidden border border-airbnb-gray-border">
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Booking ID</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Listing</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dates</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Guests</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+            <table className="min-w-full divide-y divide-airbnb-gray-border">
+              <thead>
+                <tr className="bg-airbnb-background">
+                  <th className="px-6 py-4 text-left text-xs font-medium text-airbnb-light-gray uppercase tracking-wider">Booking ID</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-airbnb-light-gray uppercase tracking-wider">User</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-airbnb-light-gray uppercase tracking-wider">Listing</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-airbnb-light-gray uppercase tracking-wider">Dates</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-airbnb-light-gray uppercase tracking-wider">Guests</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-airbnb-light-gray uppercase tracking-wider">Price</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-airbnb-light-gray uppercase tracking-wider">Status</th>
+                  <th className="px-6 py-4 text-right text-xs font-medium text-airbnb-light-gray uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="divide-y divide-airbnb-gray-border">
                 {filteredBookings.map((booking) => (
-                  <tr key={booking._id}>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  <tr key={booking._id} className="hover:bg-airbnb-background transition-colors">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-airbnb-dark-gray">
                       {booking._id.substring(0, 8)}...
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">{booking.user.name}</div>
-                      <div className="text-sm text-gray-500">{booking.user.email}</div>
+                      <div className="text-sm font-medium text-airbnb-dark-gray">{booking.user.name}</div>
+                      <div className="text-sm text-airbnb-light-gray">{booking.user.email}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">{booking.listing.title}</div>
-                      <div className="text-sm text-gray-500">{booking.listing.location}</div>
+                      <div className="text-sm font-medium text-airbnb-dark-gray">{booking.listing.title}</div>
+                      <div className="text-sm text-airbnb-light-gray">{booking.listing.location}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">
+                      <div className="text-sm text-airbnb-dark-gray">
                         {format(new Date(booking.startDate), 'MMM dd, yyyy')}
                       </div>
-                      <div className="text-sm text-gray-500">
+                      <div className="text-sm text-airbnb-light-gray">
                         to {format(new Date(booking.endDate), 'MMM dd, yyyy')}
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-airbnb-dark-gray">
                       {booking.guests}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-airbnb-dark-gray">
                       ₹{booking.totalPrice}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusBadgeClass(booking.status)}`}>
+                      <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusBadgeClass(booking.status)}`}>
                         {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
                       </span>
                     </td>
@@ -231,7 +256,7 @@ const Bookings: React.FC = () => {
                       <select
                         value={booking.status}
                         onChange={(e) => handleUpdateStatus(booking._id, e.target.value)}
-                        className="text-sm border rounded p-1"
+                        className="text-sm border border-airbnb-gray-border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-airbnb-pink"
                       >
                         <option value="confirmed">Confirm</option>
                         <option value="cancelled">Cancel</option>
