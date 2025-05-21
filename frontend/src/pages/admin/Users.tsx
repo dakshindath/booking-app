@@ -80,14 +80,14 @@ const Users: React.FC = () => {
   
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64 font-airbnb">
+      <div className="flex justify-center items-center h-64 font-staynest">
         <div className="animate-pulse flex space-x-4">
-          <div className="rounded-full bg-airbnb-gray-border h-10 w-10"></div>
+          <div className="rounded-full bg-staynest-gray-border h-10 w-10"></div>
           <div className="flex-1 space-y-4 py-1">
-            <div className="h-4 bg-airbnb-gray-border rounded w-3/4"></div>
+            <div className="h-4 bg-staynest-gray-border rounded w-3/4"></div>
             <div className="space-y-2">
-              <div className="h-4 bg-airbnb-gray-border rounded"></div>
-              <div className="h-4 bg-airbnb-gray-border rounded w-5/6"></div>
+              <div className="h-4 bg-staynest-gray-border rounded"></div>
+              <div className="h-4 bg-staynest-gray-border rounded w-5/6"></div>
             </div>
           </div>
         </div>
@@ -97,14 +97,14 @@ const Users: React.FC = () => {
   
   if (error) {
     return (
-      <div className="text-center p-6 font-airbnb">
-        <svg className="w-16 h-16 mx-auto text-airbnb-pink mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <div className="text-center p-6 font-staynest">
+        <svg className="w-16 h-16 mx-auto text-staynest-pink mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
-        <p className="text-airbnb-dark-gray mb-4">{error}</p>
+        <p className="text-staynest-dark-gray mb-4">{error}</p>
         <button 
           onClick={() => window.location.reload()} 
-          className="px-6 py-3 bg-airbnb-pink text-white font-medium rounded-lg hover:bg-opacity-90 transition-colors"
+          className="px-6 py-3 bg-staynest-pink text-white font-medium rounded-lg hover:bg-opacity-90 transition-colors"
         >
           Retry
         </button>
@@ -113,16 +113,16 @@ const Users: React.FC = () => {
   }
   
   return (
-    <div className="font-airbnb max-w-6xl mx-auto">
+    <div className="font-staynest max-w-6xl mx-auto">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-semibold text-airbnb-dark-gray">Manage Users</h1>
-        <span className="text-airbnb-light-gray">Total: {users.length} users</span>
+        <h1 className="text-2xl font-semibold text-staynest-dark-gray">Manage Users</h1>
+        <span className="text-staynest-light-gray">Total: {users.length} users</span>
       </div>
       
-      <div className="mb-6 bg-white rounded-xl shadow-sm border border-airbnb-gray-border p-4">
+      <div className="mb-6 bg-white rounded-xl shadow-sm border border-staynest-gray-border p-4">
         <div className="relative">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <svg className="h-5 w-5 text-airbnb-light-gray" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="h-5 w-5 text-staynest-light-gray" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </div>
@@ -131,64 +131,64 @@ const Users: React.FC = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search by name or email"
-            className="pl-10 w-full px-4 py-3 border border-airbnb-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-airbnb-pink"
+            className="pl-10 w-full px-4 py-3 border border-staynest-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-staynest-pink"
           />
         </div>
       </div>
       
       {filteredUsers.length === 0 ? (
-        <div className="text-center py-12 bg-white rounded-xl shadow-sm border border-airbnb-gray-border">
-          <svg className="w-16 h-16 mx-auto text-airbnb-light-gray mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div className="text-center py-12 bg-white rounded-xl shadow-sm border border-staynest-gray-border">
+          <svg className="w-16 h-16 mx-auto text-staynest-light-gray mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
           </svg>
-          <p className="text-airbnb-dark-gray text-lg font-medium">No users found</p>
-          <p className="text-airbnb-light-gray">Try adjusting your search</p>
+          <p className="text-staynest-dark-gray text-lg font-medium">No users found</p>
+          <p className="text-staynest-light-gray">Try adjusting your search</p>
         </div>
       ) : (
-        <div className="bg-white rounded-xl shadow-sm border border-airbnb-gray-border overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm border border-staynest-gray-border overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-airbnb-gray-border">
-              <thead className="bg-airbnb-background">
+            <table className="min-w-full divide-y divide-staynest-gray-border">
+              <thead className="bg-staynest-background">
                 <tr>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-airbnb-dark-gray uppercase tracking-wider">User</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-airbnb-dark-gray uppercase tracking-wider">Email</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-airbnb-dark-gray uppercase tracking-wider">Role</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-airbnb-dark-gray uppercase tracking-wider">Joined</th>
-                  <th className="px-6 py-4 text-right text-xs font-medium text-airbnb-dark-gray uppercase tracking-wider">Actions</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-staynest-dark-gray uppercase tracking-wider">User</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-staynest-dark-gray uppercase tracking-wider">Email</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-staynest-dark-gray uppercase tracking-wider">Role</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-staynest-dark-gray uppercase tracking-wider">Joined</th>
+                  <th className="px-6 py-4 text-right text-xs font-medium text-staynest-dark-gray uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-airbnb-gray-border">
+              <tbody className="bg-white divide-y divide-staynest-gray-border">
                 {filteredUsers.map((user) => (
-                  <tr key={user._id} className="hover:bg-airbnb-background transition-colors">
+                  <tr key={user._id} className="hover:bg-staynest-background transition-colors">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <div className="h-10 w-10 flex-shrink-0 mr-3">
                           {user.avatar ? (
                             <img src={user.avatar} alt="" className="h-10 w-10 rounded-full object-cover" />
                           ) : (
-                            <div className="h-10 w-10 rounded-full bg-airbnb-pink bg-opacity-15 flex items-center justify-center">
-                              <span className="text-airbnb-pink font-medium">
+                            <div className="h-10 w-10 rounded-full bg-staynest-pink bg-opacity-15 flex items-center justify-center">
+                              <span className="text-staynest-pink font-medium">
                                 {user.name.charAt(0).toUpperCase()}
                               </span>
                             </div>
                           )}
                         </div>
-                        <div className="text-sm font-medium text-airbnb-dark-gray">{user.name}</div>
+                        <div className="text-sm font-medium text-staynest-dark-gray">{user.name}</div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-airbnb-light-gray">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-staynest-light-gray">
                       {user.email}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className={`px-3 py-1 inline-flex text-xs leading-5 font-medium rounded-full ${
                         user.isAdmin 
-                          ? 'bg-airbnb-pink bg-opacity-10 text-airbnb-pink' 
-                          : 'bg-airbnb-background text-airbnb-dark-gray'
+                          ? 'bg-staynest-pink bg-opacity-10 text-staynest-pink' 
+                          : 'bg-staynest-background text-staynest-dark-gray'
                       }`}>
                         {user.isAdmin ? 'Admin' : 'User'}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-airbnb-light-gray">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-staynest-light-gray">
                       {format(new Date(user.createdAt), 'MMM dd, yyyy')}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -198,13 +198,13 @@ const Users: React.FC = () => {
                           <div className="flex justify-end space-x-2">
                             <button
                               onClick={() => handleDeleteUser(user._id)}
-                              className="text-airbnb-pink hover:text-opacity-80 font-medium"
+                              className="text-staynest-pink hover:text-opacity-80 font-medium"
                             >
                               Confirm
                             </button>
                             <button
                               onClick={cancelDelete}
-                              className="text-airbnb-dark-gray hover:text-airbnb-light-gray"
+                              className="text-staynest-dark-gray hover:text-staynest-light-gray"
                             >
                               Cancel
                             </button>
@@ -212,7 +212,7 @@ const Users: React.FC = () => {
                         ) : (
                           <button
                             onClick={() => handleDeleteUser(user._id)}
-                            className="inline-flex items-center text-airbnb-dark-gray hover:text-airbnb-pink"
+                            className="inline-flex items-center text-staynest-dark-gray hover:text-staynest-pink"
                           >
                             <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -221,7 +221,7 @@ const Users: React.FC = () => {
                           </button>
                         )
                       ) : (
-                        <span className="text-airbnb-light-gray">Current User</span>
+                        <span className="text-staynest-light-gray">Current User</span>
                       )}
                     </td>
                   </tr>

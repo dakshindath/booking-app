@@ -7,21 +7,21 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'airbnb-red': '#FF5A5F',
-        'airbnb-pink': '#FF385C',
-        'airbnb-dark-gray': '#484848',
-        'airbnb-light-gray': '#767676',
-        'airbnb-gray-border': '#DDDDDD',
-        'airbnb-background': '#F7F7F7',
+        'staynest-red': '#FF5A5F',
+        'staynest-pink': '#FF385C',
+        'staynest-dark-gray': '#484848',
+        'staynest-light-gray': '#767676',
+        'staynest-gray-border': '#DDDDDD',
+        'staynest-background': '#F7F7F7',
       },
       fontFamily: {
-        'airbnb': ['Circular', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
+        'staynest': ['Circular', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
       },
       borderRadius: {
-        'airbnb': '12px',
+        'staynest': '12px',
       },
       boxShadow: {
-        'airbnb': '0 6px 16px rgba(0, 0, 0, 0.12)',
+        'staynest': '0 6px 16px rgba(0, 0, 0, 0.12)',
       },
     },
   },

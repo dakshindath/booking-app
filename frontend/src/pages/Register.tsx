@@ -39,12 +39,12 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto bg-white p-8 rounded-xl shadow-airbnb font-airbnb">
+    <div className="max-w-md mx-auto bg-white p-8 rounded-xl shadow-staynest font-staynest">
       <div className="mb-8 text-center">
-        <svg className="w-10 h-10 text-airbnb-pink mx-auto mb-4" viewBox="0 0 24 24" fill="currentColor">
+        <svg className="w-10 h-10 text-staynest-pink mx-auto mb-4" viewBox="0 0 24 24" fill="currentColor">
           <path d="M22.5 12c0-6.627-5.373-12-12-12S-1.5 5.373-1.5 12s5.373 12 12 12 12-5.373 12-12zm-9.75-1.5a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0zm1.5 0c0 2.07-1.68 3.75-3.75 3.75-2.07 0-3.75-1.68-3.75-3.75s1.68-3.75 3.75-3.75c2.07 0 3.75 1.68 3.75 3.75z" />
         </svg>
-        <h2 className="text-2xl font-semibold text-airbnb-dark-gray">Create an account</h2>
+        <h2 className="text-2xl font-semibold text-staynest-dark-gray">Create an account</h2>
       </div>
       
       {(error || passwordError) && (
@@ -66,7 +66,7 @@ const Register: React.FC = () => {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label htmlFor="name" className="block text-sm font-medium mb-2 text-airbnb-dark-gray">
+          <label htmlFor="name" className="block text-sm font-medium mb-2 text-staynest-dark-gray">
             Full Name
           </label>
           <input
@@ -74,14 +74,14 @@ const Register: React.FC = () => {
             id="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full px-4 py-3 border border-airbnb-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-airbnb-pink"
+            className="w-full px-4 py-3 border border-staynest-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-staynest-pink"
             placeholder="Enter your full name"
             required
           />
         </div>
 
         <div>
-          <label htmlFor="email" className="block text-sm font-medium mb-2 text-airbnb-dark-gray">
+          <label htmlFor="email" className="block text-sm font-medium mb-2 text-staynest-dark-gray">
             Email
           </label>
           <input
@@ -89,14 +89,14 @@ const Register: React.FC = () => {
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-3 border border-airbnb-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-airbnb-pink"
+            className="w-full px-4 py-3 border border-staynest-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-staynest-pink"
             placeholder="Enter your email"
             required
           />
         </div>
 
         <div>
-          <label htmlFor="password" className="block text-sm font-medium mb-2 text-airbnb-dark-gray">
+          <label htmlFor="password" className="block text-sm font-medium mb-2 text-staynest-dark-gray">
             Password
           </label>
           <input
@@ -104,15 +104,15 @@ const Register: React.FC = () => {
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-3 border border-airbnb-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-airbnb-pink"
+            className="w-full px-4 py-3 border border-staynest-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-staynest-pink"
             placeholder="Create a password"
             required
           />
-          <p className="text-xs text-airbnb-light-gray mt-1">Must be at least 6 characters long</p>
+          <p className="text-xs text-staynest-light-gray mt-1">Must be at least 6 characters long</p>
         </div>
 
         <div>
-          <label htmlFor="confirmPassword" className="block text-sm font-medium mb-2 text-airbnb-dark-gray">
+          <label htmlFor="confirmPassword" className="block text-sm font-medium mb-2 text-staynest-dark-gray">
             Confirm Password
           </label>
           <input
@@ -120,7 +120,7 @@ const Register: React.FC = () => {
             id="confirmPassword"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className="w-full px-4 py-3 border border-airbnb-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-airbnb-pink"
+            className="w-full px-4 py-3 border border-staynest-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-staynest-pink"
             placeholder="Confirm your password"
             required
           />
@@ -128,17 +128,17 @@ const Register: React.FC = () => {
 
         <button
           type="submit"
-          className="w-full bg-gradient-to-r from-airbnb-pink to-airbnb-red text-white py-3 rounded-lg font-medium hover:from-airbnb-red hover:to-airbnb-pink transition-colors disabled:opacity-70"
+          className="w-full bg-gradient-to-r from-staynest-pink to-staynest-red text-white py-3 rounded-lg font-medium hover:from-staynest-red hover:to-staynest-pink transition-colors disabled:opacity-70"
           disabled={loading}
         >
           {loading ? 'Creating account...' : 'Sign up'}
         </button>
       </form>
 
-      <div className="mt-8 pt-6 border-t border-airbnb-gray-border text-center">
-        <p className="text-airbnb-dark-gray">
+      <div className="mt-8 pt-6 border-t border-staynest-gray-border text-center">
+        <p className="text-staynest-dark-gray">
           Already have an account?{' '}
-          <Link to="/login" className="text-airbnb-pink font-medium hover:underline">
+          <Link to="/login" className="text-staynest-pink font-medium hover:underline">
             Log in
           </Link>
         </p>

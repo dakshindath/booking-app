@@ -13,11 +13,13 @@ const authRoutes = require('./routes/auth');
 const listingRoutes = require('./routes/listing');
 const bookingRoutes = require('./routes/booking');
 const adminRoutes = require('./routes/admin');
+const reviewRoutes = require('./routes/review');
 
 app.use('/api', authRoutes);
 app.use('/api', listingRoutes);
 app.use('/api', bookingRoutes);
 app.use('/api', adminRoutes);
+app.use('/api', reviewRoutes);
 
 
 mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/booking-app')

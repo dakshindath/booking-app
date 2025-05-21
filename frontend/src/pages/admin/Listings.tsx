@@ -193,14 +193,14 @@ const Listings: React.FC = () => {
   
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64 font-airbnb">
+      <div className="flex justify-center items-center h-64 font-staynest">
         <div className="animate-pulse flex space-x-4">
-          <div className="rounded-full bg-airbnb-gray-border h-10 w-10"></div>
+          <div className="rounded-full bg-staynest-gray-border h-10 w-10"></div>
           <div className="flex-1 space-y-4 py-1">
-            <div className="h-4 bg-airbnb-gray-border rounded w-3/4"></div>
+            <div className="h-4 bg-staynest-gray-border rounded w-3/4"></div>
             <div className="space-y-2">
-              <div className="h-4 bg-airbnb-gray-border rounded"></div>
-              <div className="h-4 bg-airbnb-gray-border rounded w-5/6"></div>
+              <div className="h-4 bg-staynest-gray-border rounded"></div>
+              <div className="h-4 bg-staynest-gray-border rounded w-5/6"></div>
             </div>
           </div>
         </div>
@@ -210,14 +210,14 @@ const Listings: React.FC = () => {
   
   if (error) {
     return (
-      <div className="text-center p-6 font-airbnb">
-        <svg className="w-16 h-16 mx-auto text-airbnb-pink mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <div className="text-center p-6 font-staynest">
+        <svg className="w-16 h-16 mx-auto text-staynest-pink mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
-        <p className="text-airbnb-dark-gray mb-4">{error}</p>
+        <p className="text-staynest-dark-gray mb-4">{error}</p>
         <button 
           onClick={() => window.location.reload()} 
-          className="px-6 py-3 bg-gradient-to-r from-airbnb-pink to-airbnb-red text-white font-medium rounded-lg hover:from-airbnb-red hover:to-airbnb-pink transition-colors"
+          className="px-6 py-3 bg-gradient-to-r from-staynest-pink to-staynest-red text-white font-medium rounded-lg hover:from-staynest-red hover:to-staynest-pink transition-colors"
         >
           Retry
         </button>
@@ -226,12 +226,12 @@ const Listings: React.FC = () => {
   }
   
   return (
-    <div className="font-airbnb max-w-6xl mx-auto">
+    <div className="font-staynest max-w-6xl mx-auto">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
-        <h1 className="text-2xl font-semibold text-airbnb-dark-gray">Manage Listings</h1>
+        <h1 className="text-2xl font-semibold text-staynest-dark-gray">Manage Listings</h1>
         <button
           onClick={openCreateForm}
-          className="mt-4 md:mt-0 inline-flex items-center px-6 py-3 bg-gradient-to-r from-airbnb-pink to-airbnb-red text-white font-medium rounded-lg hover:from-airbnb-red hover:to-airbnb-pink transition-colors"
+          className="mt-4 md:mt-0 inline-flex items-center px-6 py-3 bg-gradient-to-r from-staynest-pink to-staynest-red text-white font-medium rounded-lg hover:from-staynest-red hover:to-staynest-pink transition-colors"
         >
           <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -241,15 +241,15 @@ const Listings: React.FC = () => {
       </div>
       
       {listings.length === 0 ? (
-        <div className="text-center py-16 bg-white rounded-xl shadow-airbnb border border-airbnb-gray-border">
-          <svg className="w-16 h-16 mx-auto text-airbnb-light-gray mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div className="text-center py-16 bg-white rounded-xl shadow-staynest border border-staynest-gray-border">
+          <svg className="w-16 h-16 mx-auto text-staynest-light-gray mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
           </svg>
-          <p className="text-airbnb-dark-gray font-medium mb-2">No listings found</p>
-          <p className="text-airbnb-light-gray mb-6">Create your first property listing</p>
+          <p className="text-staynest-dark-gray font-medium mb-2">No listings found</p>
+          <p className="text-staynest-light-gray mb-6">Create your first property listing</p>
           <button
             onClick={openCreateForm}
-            className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-airbnb-pink to-airbnb-red text-white font-medium rounded-lg hover:from-airbnb-red hover:to-airbnb-pink transition-colors"
+            className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-staynest-pink to-staynest-red text-white font-medium rounded-lg hover:from-staynest-red hover:to-staynest-pink transition-colors"
           >
             <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -259,9 +259,9 @@ const Listings: React.FC = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-6 mb-10">
-          {listings.map((listing) => (            <div key={listing._id} className="bg-white rounded-xl shadow-sm hover:shadow-airbnb transition-shadow border border-airbnb-gray-border overflow-hidden">
+          {listings.map((listing) => (            <div key={listing._id} className="bg-white rounded-xl shadow-sm hover:shadow-staynest transition-shadow border border-staynest-gray-border overflow-hidden">
               <div className="md:flex">
-                <div className="md:w-48 h-48 md:h-48 relative flex-shrink-0 bg-airbnb-background overflow-hidden">
+                <div className="md:w-48 h-48 md:h-48 relative flex-shrink-0 bg-staynest-background overflow-hidden">
                   {listing.images && listing.images.length > 0 ? (
                     <div className="h-full w-full">
                       <img 
@@ -274,40 +274,40 @@ const Listings: React.FC = () => {
                       />
                     </div>
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-airbnb-background">
-                      <svg className="w-10 h-10 text-airbnb-light-gray" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div className="w-full h-full flex items-center justify-center bg-staynest-background">
+                      <svg className="w-10 h-10 text-staynest-light-gray" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
                     </div>
                   )}
                 </div>              <div className="flex-grow px-6 py-4">
-                <h3 className="text-lg font-semibold text-airbnb-dark-gray">{listing.title}</h3>
-                <p className="text-airbnb-light-gray mb-2">{listing.location}</p>
-                <p className="text-airbnb-dark-gray font-medium">₹{listing.price.toLocaleString()} / night</p>
+                <h3 className="text-lg font-semibold text-staynest-dark-gray">{listing.title}</h3>
+                <p className="text-staynest-light-gray mb-2">{listing.location}</p>
+                <p className="text-staynest-dark-gray font-medium">₹{listing.price.toLocaleString()} / night</p>
                 <div className="mt-2 flex flex-wrap gap-2">
                   {listing.amenities.slice(0, 3).map((amenity, index) => (
-                    <span key={index} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-airbnb-background text-airbnb-dark-gray">
+                    <span key={index} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-staynest-background text-staynest-dark-gray">
                       {amenity}
                     </span>
                   ))}
                   {listing.amenities.length > 3 && (
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-airbnb-background text-airbnb-dark-gray">
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-staynest-background text-staynest-dark-gray">
                       +{listing.amenities.length - 3} more
                     </span>
                   )}
                 </div>
               </div>
 
-              <div className="md:w-48 flex-shrink-0 flex flex-row md:flex-col gap-2 p-4 md:p-6 md:border-l md:border-airbnb-gray-border bg-white">
+              <div className="md:w-48 flex-shrink-0 flex flex-row md:flex-col gap-2 p-4 md:p-6 md:border-l md:border-staynest-gray-border bg-white">
                 <button
                   onClick={() => openEditForm(listing)}
-                  className="flex-1 py-1 px-1 md:px-0 text-airbnb-pink border border-airbnb-pink rounded-lg hover:bg-airbnb-pink hover:text-white transition-colors text-sm font-medium"
+                  className="flex-1 py-1 px-1 md:px-0 text-staynest-pink border border-staynest-pink rounded-lg hover:bg-staynest-pink hover:text-white transition-colors text-sm font-medium"
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => handleDelete(listing._id)}
-                  className="flex-1 py-1 px-1 md:px-0 text-airbnb-light-gray border border-airbnb-light-gray rounded-lg hover:bg-airbnb-light-gray hover:text-white transition-colors text-sm font-medium"
+                  className="flex-1 py-1 px-1 md:px-0 text-staynest-light-gray border border-staynest-light-gray rounded-lg hover:bg-staynest-light-gray hover:text-white transition-colors text-sm font-medium"
                 >
                   Delete
                 </button>
@@ -321,15 +321,15 @@ const Listings: React.FC = () => {
       {/* Listing Form Modal */}
       {showForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl shadow-airbnb w-full max-w-3xl max-h-screen overflow-y-auto">
+          <div className="bg-white rounded-xl shadow-staynest w-full max-w-3xl max-h-screen overflow-y-auto">
             <div className="p-6">
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-semibold text-airbnb-dark-gray">
+                <h2 className="text-xl font-semibold text-staynest-dark-gray">
                   {editingListing ? 'Edit Listing' : 'Create New Listing'}
                 </h2>
                 <button
                   onClick={closeForm}
-                  className="text-airbnb-light-gray hover:text-airbnb-dark-gray transition-colors"
+                  className="text-staynest-light-gray hover:text-staynest-dark-gray transition-colors"
                 >
                   <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -358,26 +358,26 @@ const Listings: React.FC = () => {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium mb-2 text-airbnb-dark-gray">Listing Title</label>
+                    <label className="block text-sm font-medium mb-2 text-staynest-dark-gray">Listing Title</label>
                     <input
                       type="text"
                       name="title"
                       value={formData.title}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-airbnb-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-airbnb-pink"
+                      className="w-full px-4 py-3 border border-staynest-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-staynest-pink"
                       placeholder="Enter property title"
                       required
                     />
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium mb-2 text-airbnb-dark-gray">Location</label>
+                    <label className="block text-sm font-medium mb-2 text-staynest-dark-gray">Location</label>
                     <input
                       type="text"
                       name="location"
                       value={formData.location}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-airbnb-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-airbnb-pink"
+                      className="w-full px-4 py-3 border border-staynest-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-staynest-pink"
                       placeholder="Enter location"
                       required
                     />
@@ -385,13 +385,13 @@ const Listings: React.FC = () => {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-airbnb-dark-gray">Price per night (₹)</label>
+                  <label className="block text-sm font-medium mb-2 text-staynest-dark-gray">Price per night (₹)</label>
                   <input
                     type="number"
                     name="price"
                     value={formData.price}
                     onChange={handleNumberInputChange}
-                    className="w-full px-4 py-3 border border-airbnb-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-airbnb-pink"
+                    className="w-full px-4 py-3 border border-staynest-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-staynest-pink"
                     placeholder="0.00"
                     // min="0"
                     // step="0.01"
@@ -400,44 +400,44 @@ const Listings: React.FC = () => {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-airbnb-dark-gray">Description</label>
+                  <label className="block text-sm font-medium mb-2 text-staynest-dark-gray">Description</label>
                   <textarea
                     name="description"
                     value={formData.description}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-airbnb-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-airbnb-pink h-32"
+                    className="w-full px-4 py-3 border border-staynest-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-staynest-pink h-32"
                     placeholder="Describe your property"
                     required
                   ></textarea>
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-airbnb-dark-gray">Amenities (comma-separated)</label>
+                  <label className="block text-sm font-medium mb-2 text-staynest-dark-gray">Amenities (comma-separated)</label>
                   <input
                     type="text"
                     name="amenities"
                     value={formData.amenities}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-airbnb-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-airbnb-pink"
+                    className="w-full px-4 py-3 border border-staynest-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-staynest-pink"
                     placeholder="WiFi, Kitchen, Pool, etc."
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium mb-2 text-airbnb-dark-gray">Images</label>
+                  <label className="block text-sm font-medium mb-2 text-staynest-dark-gray">Images</label>
                   <div className="flex">
                     <input
                       type="text"
                       name="imageUrl"
                       value={formData.imageUrl}
                       onChange={handleInputChange}
-                      className="flex-grow px-4 py-3 border border-r-0 border-airbnb-gray-border rounded-l-lg focus:outline-none focus:ring-2 focus:ring-airbnb-pink"
+                      className="flex-grow px-4 py-3 border border-r-0 border-staynest-gray-border rounded-l-lg focus:outline-none focus:ring-2 focus:ring-staynest-pink"
                       placeholder="Enter image URL"
                     />
                     <button
                       type="button"
                       onClick={handleAddImage}
-                      className="px-4 py-3 bg-gradient-to-r from-airbnb-pink to-airbnb-red text-white rounded-r-lg hover:from-airbnb-red hover:to-airbnb-pink transition-colors"
+                      className="px-4 py-3 bg-gradient-to-r from-staynest-pink to-staynest-red text-white rounded-r-lg hover:from-staynest-red hover:to-staynest-pink transition-colors"
                     >
                       Add
                     </button>
@@ -457,7 +457,7 @@ const Listings: React.FC = () => {
                           <button
                             type="button"
                             onClick={() => handleRemoveImage(index)}
-                            className="absolute top-2 right-2 bg-white text-airbnb-red rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
+                            className="absolute top-2 right-2 bg-white text-staynest-red rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-sm"
                           >
                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -469,17 +469,17 @@ const Listings: React.FC = () => {
                   )}
                 </div>
                 
-                <div className="flex justify-end space-x-4 mt-8 pt-6 border-t border-airbnb-gray-border">
+                <div className="flex justify-end space-x-4 mt-8 pt-6 border-t border-staynest-gray-border">
                   <button
                     type="button"
                     onClick={closeForm}
-                    className="px-6 py-3 border border-airbnb-gray-border text-airbnb-dark-gray rounded-lg hover:bg-airbnb-background transition-colors"
+                    className="px-6 py-3 border border-staynest-gray-border text-staynest-dark-gray rounded-lg hover:bg-staynest-background transition-colors"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="px-6 py-3 bg-gradient-to-r from-airbnb-pink to-airbnb-red text-white rounded-lg hover:from-airbnb-red hover:to-airbnb-pink transition-colors"
+                    className="px-6 py-3 bg-gradient-to-r from-staynest-pink to-staynest-red text-white rounded-lg hover:from-staynest-red hover:to-staynest-pink transition-colors"
                   >
                     {editingListing ? 'Save Changes' : 'Create Listing'}
                   </button>

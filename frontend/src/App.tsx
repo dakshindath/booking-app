@@ -32,7 +32,7 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="flex flex-col min-h-screen bg-airbnb-background font-airbnb">
+        <div className="flex flex-col min-h-screen bg-staynest-background font-staynest">
           <Header />
           <main className="flex-grow container mx-auto px-4 py-8">
             <Routes>

@@ -70,15 +70,15 @@ const UserProfile: React.FC = () => {
   };
 
   return (
-    <div className="max-w-xl mx-auto bg-white p-8 rounded-xl shadow-airbnb border border-airbnb-gray-border font-airbnb">
+    <div className="max-w-xl mx-auto bg-white p-8 rounded-xl shadow-staynest border border-staynest-gray-border font-staynest">
       <div className="mb-8 text-center">
-        <div className="w-20 h-20 bg-airbnb-background rounded-full flex items-center justify-center mx-auto mb-4">
-          <svg className="w-10 h-10 text-airbnb-pink" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div className="w-20 h-20 bg-staynest-background rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg className="w-10 h-10 text-staynest-pink" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
           </svg>
         </div>
-        <h2 className="text-2xl font-semibold text-airbnb-dark-gray">My Profile</h2>
-        <p className="text-airbnb-light-gray mt-2">Manage your personal information</p>
+        <h2 className="text-2xl font-semibold text-staynest-dark-gray">My Profile</h2>
+        <p className="text-staynest-light-gray mt-2">Manage your personal information</p>
       </div>
       
       {error && (
@@ -117,7 +117,7 @@ const UserProfile: React.FC = () => {
       
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label htmlFor="name" className="block text-sm font-medium mb-2 text-airbnb-dark-gray">
+          <label htmlFor="name" className="block text-sm font-medium mb-2 text-staynest-dark-gray">
             Full Name
           </label>
           <input
@@ -125,13 +125,13 @@ const UserProfile: React.FC = () => {
             id="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full px-4 py-3 border border-airbnb-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-airbnb-pink"
+            className="w-full px-4 py-3 border border-staynest-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-staynest-pink"
             required
           />
         </div>
         
         <div>
-          <label htmlFor="email" className="block text-sm font-medium mb-2 text-airbnb-dark-gray">
+          <label htmlFor="email" className="block text-sm font-medium mb-2 text-staynest-dark-gray">
             Email
           </label>
           <div className="relative">
@@ -140,25 +140,25 @@ const UserProfile: React.FC = () => {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 border border-airbnb-gray-border rounded-lg bg-airbnb-background focus:outline-none cursor-not-allowed"
+              className="w-full px-4 py-3 border border-staynest-gray-border rounded-lg bg-staynest-background focus:outline-none cursor-not-allowed"
               required 
               readOnly
             />
             <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-              <svg className="h-5 w-5 text-airbnb-light-gray" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="h-5 w-5 text-staynest-light-gray" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
             </div>
           </div>
-          <p className="text-xs text-airbnb-light-gray mt-1">Email cannot be changed</p>
+          <p className="text-xs text-staynest-light-gray mt-1">Email cannot be changed</p>
         </div>
         
-        <div className="pt-6 border-t border-airbnb-gray-border">
-          <h3 className="text-lg font-medium text-airbnb-dark-gray mb-4">Change Password</h3>
+        <div className="pt-6 border-t border-staynest-gray-border">
+          <h3 className="text-lg font-medium text-staynest-dark-gray mb-4">Change Password</h3>
           
           <div className="space-y-6">
             <div>
-              <label htmlFor="password" className="block text-sm font-medium mb-2 text-airbnb-dark-gray">
+              <label htmlFor="password" className="block text-sm font-medium mb-2 text-staynest-dark-gray">
                 New Password
               </label>
               <input
@@ -166,13 +166,13 @@ const UserProfile: React.FC = () => {
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 border border-airbnb-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-airbnb-pink"
+                className="w-full px-4 py-3 border border-staynest-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-staynest-pink"
                 placeholder="Leave blank to keep current password"
               />
             </div>
             
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium mb-2 text-airbnb-dark-gray">
+              <label htmlFor="confirmPassword" className="block text-sm font-medium mb-2 text-staynest-dark-gray">
                 Confirm New Password
               </label>
               <input
@@ -180,7 +180,7 @@ const UserProfile: React.FC = () => {
                 id="confirmPassword"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className={`w-full px-4 py-3 border border-airbnb-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-airbnb-pink ${!password ? 'bg-airbnb-background cursor-not-allowed' : ''}`}
+                className={`w-full px-4 py-3 border border-staynest-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-staynest-pink ${!password ? 'bg-staynest-background cursor-not-allowed' : ''}`}
                 disabled={!password}
               />
             </div>
@@ -190,7 +190,7 @@ const UserProfile: React.FC = () => {
         <div className="pt-6">
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-airbnb-pink to-airbnb-red text-white py-3 rounded-lg font-medium hover:from-airbnb-red hover:to-airbnb-pink transition-colors disabled:opacity-70"
+            className="w-full bg-gradient-to-r from-staynest-pink to-staynest-red text-white py-3 rounded-lg font-medium hover:from-staynest-red hover:to-staynest-pink transition-colors disabled:opacity-70"
             disabled={loading}
           >
             {loading ? 'Updating...' : 'Save Changes'}

@@ -12,6 +12,8 @@ const listingSchema = new mongoose.Schema({
     start: { type: Date },
     end: { type: Date }
   }],
+  avgRating: { type: Number, default: 0 },
+  reviewsCount: { type: Number, default: 0 },
   createdAt: { type: Date, default: Date.now },
 });
 

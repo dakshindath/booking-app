@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.get('/listings', listingController.getListings);
 router.get('/listing/:id', listingController.getListingById);
+router.get('/locations', listingController.getLocations);
 
 router.post('/admin/listing', auth, admin, listingController.createListing);
 router.put('/admin/listing/:id', auth, admin, listingController.updateListing);
