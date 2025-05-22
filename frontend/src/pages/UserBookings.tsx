@@ -65,9 +65,8 @@ const UserBookings: React.FC = () => {
     const fetchBookings = async () => {
       if (!user) return;
       
-      try {
-        const response = await axios.get(
-          `${API_URL}/booking/${user.id}`,
+      try {        const response = await axios.get(
+          `${API_URL}/booking`,
           {
             headers: {
               'Authorization': `Bearer ${token}`

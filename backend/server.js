@@ -14,12 +14,16 @@ const listingRoutes = require('./routes/listing');
 const bookingRoutes = require('./routes/booking');
 const adminRoutes = require('./routes/admin');
 const reviewRoutes = require('./routes/review');
+const favoriteRoutes = require('./routes/favorites');
+const hostRoutes = require('./routes/host');
 
 app.use('/api', authRoutes);
 app.use('/api', listingRoutes);
 app.use('/api', bookingRoutes);
-app.use('/api', adminRoutes);
+app.use('/api/admin', adminRoutes);
 app.use('/api', reviewRoutes);
+app.use('/api/favorites', favoriteRoutes);
+app.use('/api/host', hostRoutes);
 
 
 mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/booking-app')

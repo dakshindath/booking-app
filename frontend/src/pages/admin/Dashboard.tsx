@@ -220,8 +220,7 @@ const Dashboard: React.FC = () => {
                 <p className="text-sm text-staynest-light-gray">View and manage user accounts</p>
               </div>
             </Link>
-            
-            <Link to="/admin/bookings" className="flex items-center p-3 hover:bg-staynest-background rounded-lg transition-colors">
+              <Link to="/admin/bookings" className="flex items-center p-3 hover:bg-staynest-background rounded-lg transition-colors">
               <div className="p-2 bg-green-500 rounded-lg mr-4">
                 <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
@@ -230,6 +229,30 @@ const Dashboard: React.FC = () => {
               <div>
                 <h3 className="font-medium text-staynest-dark-gray">Manage Bookings</h3>
                 <p className="text-sm text-staynest-light-gray">Review and update booking status</p>
+              </div>
+            </Link>
+            
+            <Link to="/admin/host-applications" className="flex items-center p-3 hover:bg-staynest-background rounded-lg transition-colors">
+              <div className="p-2 bg-purple-500 rounded-lg mr-4">
+                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="font-medium text-staynest-dark-gray">Host Applications</h3>
+                <p className="text-sm text-staynest-light-gray">Review and approve host applications</p>
+              </div>
+            </Link>
+            
+            <Link to="/admin/pending-listings" className="flex items-center p-3 hover:bg-staynest-background rounded-lg transition-colors">
+              <div className="p-2 bg-orange-500 rounded-lg mr-4">
+                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="font-medium text-staynest-dark-gray">Pending Listings</h3>
+                <p className="text-sm text-staynest-light-gray">Review and approve listing submissions</p>
               </div>
             </Link>
           </div>

@@ -7,7 +7,14 @@ const listingSchema = new mongoose.Schema({
   location: { type: String, required: true },
   images: [{ type: String }],
   amenities: [{ type: String }],
-  host: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  host: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  isApproved: { type: Boolean, default: false },
+  status: { 
+    type: String, 
+    enum: ['pending', 'approved', 'rejected'], 
+    default: 'pending' 
+  },
+  rejectionReason: { type: String },
   availability: [{
     start: { type: Date },
     end: { type: Date }

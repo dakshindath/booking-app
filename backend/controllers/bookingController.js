@@ -21,12 +21,19 @@ exports.createBooking = async (req, res) => {
 
 exports.getUserBookings = async (req, res) => {
   try {
-    if (req.user.id !== req.params.userId && !req.user.isAdmin) {
+    // If no userId provided, use the logged-in user's ID
+    const userId = req.params.userId || req.user.id;
+
+    // Check authorization
+    if (userId !== req.user.id && !req.user.isAdmin) {
       return res.status(403).json({ message: 'Unauthorized' });
     }
-    const bookings = await Booking.find({ user: req.params.userId }).populate('listing');
+
+    // Find bookings for the user and populate listing details
+    const bookings = await Booking.find({ user: userId }).populate('listing');
     res.json(bookings);
   } catch (err) {
+    console.error('Error getting user bookings:', err);
     res.status(500).json({ message: 'Server error' });
   }
 };

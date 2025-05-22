@@ -8,6 +8,14 @@ interface User {
   name: string;
   email: string;
   isAdmin: boolean;
+  isHost: boolean;
+  hostSince?: Date;
+  hostInfo?: {
+    phone: string;
+    address: string;
+    bio: string;
+    identification: string;
+  };
 }
 
 interface AuthContextType {
@@ -19,6 +27,7 @@ interface AuthContextType {
   register: (name: string, email: string, password: string) => Promise<void>;
   logout: () => void;
   clearError: () => void;
+  refreshUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -38,14 +47,13 @@ interface AuthProviderProps {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true); // Start as true while initializing
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Load user data if token exists
-    if (token) {
-      const loadUser = async () => {
-        try {
+    const initializeAuth = async () => {
+      try {
+        if (token) {
           // Set the token in the headers for every request
           axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
@@ -54,24 +62,32 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           let userData = null;
           if (storedUser && storedUser !== 'undefined') {
             userData = JSON.parse(storedUser);
-          }
-          if (userData && userData.id) {
-            setUser(userData);
+            if (userData && userData.id) {
+              // Verify the token and user data are still valid
+              const response = await axios.get(`${API_URL}/user/${userData.id}`, {
+                headers: { Authorization: `Bearer ${token}` }
+              });
+              setUser(response.data);
+              localStorage.setItem('user', JSON.stringify(response.data));
+            } else {
+              logout();
+            }
           } else {
-            // If no valid user data, logout
             logout();
           }
-        } catch (err) {
-          console.error('Error loading user', err);
-          logout();
+        } else {
+          // No token means not authenticated
+          delete axios.defaults.headers.common['Authorization'];
         }
-      };
+      } catch (err) {
+        console.error('Error initializing auth:', err);
+        logout();
+      } finally {
+        setLoading(false);
+      }
+    };
 
-      loadUser();
-    } else {
-      // No token means not authenticated
-      delete axios.defaults.headers.common['Authorization'];
-    }
+    initializeAuth();
   }, [token]);
 
   const login = async (email: string, password: string) => {
@@ -134,6 +150,24 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     setError(null);
   };
 
+  const refreshUser = async () => {
+    if (token && user?.id) {
+      try {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        };
+        const response = await axios.get(`${API_URL}/user/${user.id}`, config);
+        const updatedUser = response.data;
+        setUser(updatedUser);
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+      } catch (err) {
+        console.error('Error refreshing user data:', err);
+      }
+    }
+  };
+
   const value = {
     user,
     token,
@@ -142,7 +176,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     login,
     register,
     logout,
-    clearError
+    clearError,
+    refreshUser
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

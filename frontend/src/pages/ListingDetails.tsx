@@ -27,23 +27,28 @@ interface Listing {
 const ListingDetails: React.FC = () => {
   const { id } = useParams<{id: string}>();
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   
   const [listing, setListing] = useState<Listing | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [isFavorite, setIsFavorite] = useState<boolean>(false);
   
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [guests, setGuests] = useState<number>(1);
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [showFullDescription, setShowFullDescription] = useState<boolean>(false);
-  const [showAllAmenities, setShowAllAmenities] = useState<boolean>(false);
-
-  useEffect(() => {
+  const [showAllAmenities, setShowAllAmenities] = useState<boolean>(false);  useEffect(() => {
     const fetchListing = async () => {
       try {
-        const response = await axios.get(`${API_URL}/listing/${id}`);
+        const config = token ? {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        } : {};
+        
+        const response = await axios.get(`${API_URL}/listing/${id}`, config);
         setListing(response.data);
         setLoading(false);
       } catch (err) {
@@ -54,7 +59,59 @@ const ListingDetails: React.FC = () => {
     };
 
     fetchListing();
-  }, [id]);
+  }, [id, token]);
+
+  // Check if listing is favorited by the user
+  useEffect(() => {
+    const checkFavoriteStatus = async () => {
+      if (!token || !id) return;
+      
+      try {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        };
+        
+        const response = await axios.get(`${API_URL}/favorites/check/${id}`, config);
+        setIsFavorite(response.data.isFavorite);
+      } catch (err) {
+        console.error('Error checking favorite status:', err);
+      }
+    };
+    
+    checkFavoriteStatus();
+  }, [id, token]);
+
+  // Toggle favorite status
+  const toggleFavorite = async () => {
+    if (!token) {
+      navigate('/login');
+      return;
+    }
+    
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      };
+      
+      if (isFavorite) {
+        // Remove from favorites
+        await axios.delete(`${API_URL}/favorites/${id}`, config);
+      } else {
+        // Add to favorites
+        await axios.post(`${API_URL}/favorites`, { listingId: id }, config);
+      }
+      
+      // Toggle state
+      setIsFavorite(!isFavorite);
+    } catch (err) {
+      console.error('Error toggling favorite:', err);
+      setError('Failed to update favorite status. Please try again.');
+    }
+  };
 
   useEffect(() => {
     if (listing && startDate && endDate) {
@@ -158,18 +215,25 @@ const ListingDetails: React.FC = () => {
             <span className="mx-1">·</span>
             <span>{listing.location}</span>
           </div>
-          <div className="flex items-center space-x-4 mt-2 sm:mt-0">
-            <button className="flex items-center text-staynest-dark-gray hover:underline">
+          <div className="flex items-center space-x-4 mt-2 sm:mt-0">            <button className="flex items-center text-staynest-dark-gray hover:underline">
               <svg className="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
               </svg>
               Share
             </button>
-            <button className="flex items-center text-staynest-dark-gray hover:underline">
-              <svg className="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <button 
+              className={`flex items-center ${isFavorite ? 'text-staynest-pink' : 'text-staynest-dark-gray'} hover:underline`}
+              onClick={toggleFavorite}
+            >
+              <svg 
+                className="w-4 h-4 mr-1" 
+                viewBox="0 0 24 24" 
+                fill={isFavorite ? "currentColor" : "none"} 
+                stroke="currentColor"
+              >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>
-              Save
+              {isFavorite ? 'Saved' : 'Save'}
             </button>
           </div>
         </div>

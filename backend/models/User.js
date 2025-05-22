@@ -5,6 +5,14 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   isAdmin: { type: Boolean, default: false },
+  isHost: { type: Boolean, default: false },
+  hostSince: { type: Date },
+  hostInfo: {
+    phone: { type: String },
+    address: { type: String },
+    bio: { type: String },
+    identification: { type: String } // Document ID or verification info
+  },
   avatar: { type: String },
   createdAt: { type: Date, default: Date.now },
 });

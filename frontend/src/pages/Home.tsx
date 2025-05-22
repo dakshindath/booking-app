@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const API_URL = 'http://localhost:5000/api';
 
-// Custom CSS for scrollbar hiding
 const scrollbarHideStyles = `
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
@@ -26,20 +26,17 @@ interface Listing {
   reviewsCount: number;
 }
 
-const Home: React.FC = () => {  const [allListings, setAllListings] = useState<Listing[]>([]);
+const Home: React.FC = () => {  
+  const [allListings, setAllListings] = useState<Listing[]>([]);
   const [featuredListings, setFeaturedListings] = useState<Listing[]>([]);
   const [topRatedListings, setTopRatedListings] = useState<Listing[]>([]);
-  const [trendingListings, setTrendingListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [visibleListings, setVisibleListings] = useState<number>(8);
-  const location = useLocation();  // Helper function to get trending listings (based on newest listings)
-  const getTrendingListings = (listings: Listing[], count: number = 8): Listing[] => {
-    // This is a placeholder implementation - in a real app, you'd use actual trending metrics
-    // For now, we'll assume newest listings are trending (you'd need to add createdAt to your model)
-    return [...listings].sort(() => 0.5 - Math.random()).slice(0, count);
-  };
-    useEffect(() => {
+  const [visibleListings, setVisibleListings] = useState<number>(8);  
+  const [favorites, setFavorites] = useState<{ [key: string]: boolean }>({});
+  const { token } = useAuth();
+  const location = useLocation();
+  useEffect(() => {
     const fetchListings = async () => {
       try {
         const searchParams = new URLSearchParams(location.search);
@@ -58,16 +55,12 @@ const Home: React.FC = () => {  const [allListings, setAllListings] = useState<L
         // Create featured listings (random selection)
         const randomListings = [...fetchedListings].sort(() => 0.5 - Math.random()).slice(0, 8);
         setFeaturedListings(randomListings);
-        
-        // Create top-rated listings
+          // Create top-rated listings
         const topRated = [...fetchedListings]
           .filter(listing => listing.avgRating > 0)
           .sort((a, b) => b.avgRating - a.avgRating)
           .slice(0, 8);
         setTopRatedListings(topRated);
-          // Get trending listings (using our helper function)
-        const trending = getTrendingListings(fetchedListings);
-        setTrendingListings(trending);
         
         setLoading(false);
       } catch (err) {
@@ -79,6 +72,34 @@ const Home: React.FC = () => {  const [allListings, setAllListings] = useState<L
 
     fetchListings();
   }, [location.search]);
+
+  // Fetch favorite listings
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      if (!token) return;
+      
+      try {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        };
+        
+        const response = await axios.get(`${API_URL}/favorites`, config);
+        const favoritesMap: { [key: string]: boolean } = {};
+        
+        response.data.forEach((listing: Listing) => {
+          favoritesMap[listing._id] = true;
+        });
+        
+        setFavorites(favoritesMap);
+      } catch (err) {
+        console.error('Error fetching favorites:', err);
+      }
+    };
+    
+    fetchFavorites();
+  }, [token]);
 
   if (loading) {
     return (
@@ -114,6 +135,47 @@ const Home: React.FC = () => {  const [allListings, setAllListings] = useState<L
     );
   }  // Component for a single listing card
   const ListingCard: React.FC<{ listing: Listing }> = ({ listing }) => {
+    const { token } = useAuth();
+    const isFavorite = favorites[listing._id] || false;
+
+    const toggleFavorite = async (e: React.MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      if (!token) {
+        // Redirect to login if not logged in
+        window.location.href = '/login';
+        return;
+      }
+      
+      try {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        };
+        
+        if (isFavorite) {
+          // Remove from favorites
+          await axios.delete(`${API_URL}/favorites/${listing._id}`, config);
+          setFavorites(prev => {
+            const updated = {...prev};
+            delete updated[listing._id];
+            return updated;
+          });
+        } else {
+          // Add to favorites
+          await axios.post(`${API_URL}/favorites`, { listingId: listing._id }, config);
+          setFavorites(prev => ({
+            ...prev,
+            [listing._id]: true
+          }));
+        }
+      } catch (err) {
+        console.error('Error toggling favorite:', err);
+      }
+    };
+
     return (
       <Link to={`/listings/${listing._id}`} className="group block relative">
         <div className="space-y-2">
@@ -128,13 +190,16 @@ const Home: React.FC = () => {  const [allListings, setAllListings] = useState<L
                 />
                 {/* Favorite button */}
                 <button 
-                  className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white bg-opacity-40 backdrop-blur-sm flex items-center justify-center text-white hover:text-staynest-pink transition-colors focus:outline-none"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    // Add favorite functionality in the future
-                  }}
+                  className={`absolute top-3 right-3 w-8 h-8 rounded-full bg-white bg-opacity-40 backdrop-blur-sm flex items-center justify-center ${isFavorite ? 'text-staynest-pink' : 'text-white'} hover:text-staynest-pink transition-colors focus:outline-none`}
+                  onClick={toggleFavorite}
                 >
-                  <svg className="w-5 h-5 stroke-current drop-shadow-sm" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none">
+                  <svg 
+                    className="w-5 h-5 drop-shadow-sm" 
+                    viewBox="0 0 24 24" 
+                    stroke="currentColor" 
+                    strokeWidth="2" 
+                    fill={isFavorite ? "currentColor" : "none"}
+                  >
                     <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                   </svg>
                 </button>
@@ -314,18 +379,11 @@ const Home: React.FC = () => {  const [allListings, setAllListings] = useState<L
             subtitle="Our hand-picked selection of amazing stay"
             listings={featuredListings} 
           />
-          
-          {/* Top Rated Listings */}
+            {/* Top Rated Listings */}
           <ListingRow 
             title="Top Rated Stays" 
             subtitle="Highly rated by guests"
             listings={topRatedListings} 
-          />
-            {/* Trending Listings */}
-          <ListingRow 
-            title="Trending Now" 
-            subtitle="Most popular stay this week"
-            listings={trendingListings} 
           />
           
           {/* All Listings with Show More functionality */}
