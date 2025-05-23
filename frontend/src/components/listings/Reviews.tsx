@@ -72,7 +72,8 @@ const Reviews: React.FC<ReviewsProps> = ({ listingId }) => {
     if (user && token) {
       const fetchUserBookings = async () => {
         try {
-          const response = await axios.get(`${API_URL}/booking/${user.id}`, {
+          // Use the /booking endpoint which uses the token to identify the user
+          const response = await axios.get(`${API_URL}/booking`, {
             headers: { Authorization: `Bearer ${token}` }
           });
           

@@ -96,11 +96,55 @@ exports.approveHostApplication = async (req, res) => {
 
     user.isHost = true;
     user.hostSince = new Date();
+    user.hostInfo.status = 'approved';
     await user.save();
 
     res.json({ message: 'Host application approved', user });
   } catch (err) {
     console.error('Error approving host application:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+exports.getAllHosts = async (req, res) => {
+  try {
+    const hosts = await User.find({ isHost: true }).select('-password');
+    res.json(hosts);
+  } catch (err) {
+    console.error('Error getting all hosts:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+exports.revokeHostStatus = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    
+    if (!user.isHost) {
+      return res.status(400).json({ message: 'User is not a host' });
+    }
+
+    // Prevent revoking host status from admin users
+    if (user.isAdmin) {
+      return res.status(403).json({ message: 'Cannot revoke host status from admin users' });
+    }
+
+    user.isHost = false;
+    
+    // Set status to rejected when revoking
+    if (user.hostInfo) {
+      user.hostInfo.status = 'rejected';
+    }
+    
+    await user.save();
+
+    res.json({ message: 'Host status revoked successfully', user });
+  } catch (err) {
+    console.error('Error revoking host status:', err);
     res.status(500).json({ message: 'Server error' });
   }
 };

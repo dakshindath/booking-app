@@ -11,7 +11,8 @@ const userSchema = new mongoose.Schema({
     phone: { type: String },
     address: { type: String },
     bio: { type: String },
-    identification: { type: String } // Document ID or verification info
+    identification: { type: String }, // Document ID or verification info
+    status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' }
   },
   avatar: { type: String },
   createdAt: { type: Date, default: Date.now },

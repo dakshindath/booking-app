@@ -18,7 +18,9 @@ const BecomeHost: React.FC = () => {
   
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [applicationStatus, setApplicationStatus] = useState<string | null>(null);  useEffect(() => {
+  const [applicationStatus, setApplicationStatus] = useState<string | null>(null);
+  
+  useEffect(() => {
     // Check if user is already a host or has a pending application
     const checkHostStatus = async () => {
       try {
@@ -61,7 +63,12 @@ const BecomeHost: React.FC = () => {
             identification: response.data.hostInfo.identification || ''
           });
           
-          setApplicationStatus('pending');
+          // Set application status based on the status field
+          if (response.data.hostInfo.status === 'rejected') {
+            setApplicationStatus('rejected');
+          } else {
+            setApplicationStatus('pending');
+          }
         }
       } catch (err) {
         console.error('Error checking host status:', err);
@@ -130,6 +137,115 @@ const BecomeHost: React.FC = () => {
           <button
             onClick={() => navigate('/')}
             className="px-6 py-3 bg-staynest-pink text-white font-medium rounded-lg hover:bg-opacity-90 transition-colors"
+          >
+            Return to Home
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (applicationStatus === 'rejected') {
+    return (
+      <div className="max-w-2xl mx-auto px-4 py-8">
+        <div className="bg-red-50 border border-red-200 rounded-xl p-8 text-center animate-fadeIn">
+          <svg className="w-16 h-16 text-red-500 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <h2 className="text-2xl font-bold text-red-800 mb-2">Application Rejected</h2>
+          <p className="text-red-700 mb-6">
+            We're sorry, but your host application was not approved. You can review and update your information below to reapply.
+          </p>
+          
+          <div className="bg-white rounded-xl shadow-md p-6 mb-6">
+            <h3 className="text-xl font-semibold mb-4">Reapply as Host</h3>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {error && (
+                <div className="bg-red-50 text-red-700 p-4 rounded-lg">
+                  {error}
+                </div>
+              )}
+
+              <div>
+                <label htmlFor="phone" className="block text-staynest-dark-gray font-medium mb-2">
+                  Phone Number*
+                </label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 border border-staynest-gray-border rounded-lg focus:ring-staynest-pink focus:border-staynest-pink"
+                  placeholder="Enter your phone number"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="address" className="block text-staynest-dark-gray font-medium mb-2">
+                  Full Address*
+                </label>
+                <input
+                  type="text"
+                  id="address"
+                  name="address"
+                  value={formData.address}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 border border-staynest-gray-border rounded-lg focus:ring-staynest-pink focus:border-staynest-pink"
+                  placeholder="Enter your full address"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="bio" className="block text-staynest-dark-gray font-medium mb-2">
+                  About You
+                </label>
+                <textarea
+                  id="bio"
+                  name="bio"
+                  value={formData.bio}
+                  onChange={handleChange}
+                  rows={4}
+                  className="w-full px-4 py-3 border border-staynest-gray-border rounded-lg focus:ring-staynest-pink focus:border-staynest-pink"
+                  placeholder="Tell us a bit about yourself"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="identification" className="block text-staynest-dark-gray font-medium mb-2">
+                  Identification
+                </label>
+                <input
+                  type="text"
+                  id="identification"
+                  name="identification"
+                  value={formData.identification}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-staynest-gray-border rounded-lg focus:ring-staynest-pink focus:border-staynest-pink"
+                  placeholder="Your ID or passport number"
+                />
+                <p className="mt-2 text-sm text-staynest-light-gray">
+                  This information will be used for verification purposes only.
+                </p>
+              </div>
+
+              <div className="pt-4">
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-gradient-to-r from-staynest-pink to-staynest-red text-white py-3 rounded-lg font-medium hover:from-staynest-red hover:to-staynest-pink transition-colors"
+                >
+                  {loading ? 'Submitting...' : 'Reapply as Host'}
+                </button>
+              </div>
+            </form>
+          </div>
+          
+          <button
+            onClick={() => navigate('/')}
+            className="px-6 py-3 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition-colors"
           >
             Return to Home
           </button>

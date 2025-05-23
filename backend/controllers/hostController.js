@@ -16,7 +16,13 @@ exports.applyToBeHost = async (req, res) => {
     const user = await User.findByIdAndUpdate(
       userId, 
       {
-        hostInfo: { phone, address, bio, identification },
+        hostInfo: { 
+          phone, 
+          address, 
+          bio, 
+          identification,
+          status: 'pending'  // Setting status to pending
+        },
         isHost: false, // Will be approved by admin
         hostSince: new Date()
       },
@@ -87,9 +93,10 @@ exports.getPendingHostApplications = async (req, res) => {
       return res.status(403).json({ message: 'Access denied' });
     }
     
-    // Find users with hostInfo but isHost set to false
+    // Find users with hostInfo but isHost set to false and status is pending
     const pendingHosts = await User.find({
       'hostInfo.phone': { $exists: true },
+      'hostInfo.status': 'pending', // Only show pending applications
       isHost: false
     }).select('-password');
     
@@ -107,7 +114,7 @@ exports.reviewHostApplication = async (req, res) => {
     if (!req.user.isAdmin) {
       return res.status(403).json({ message: 'Access denied' });
     }
-      const { hostId, approve } = req.body;
+    const { hostId, approve } = req.body;
     
     if (!hostId) {
       return res.status(400).json({ message: 'Host ID is required' });
@@ -119,12 +126,26 @@ exports.reviewHostApplication = async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
     
-    user.isHost = approve === true;
-    
     if (approve) {
-      // If approved, set hostSince to current date if not already set
+      // If approved, set host status to true
+      user.isHost = true;
+      
+      // Set hostSince to current date if not already set
       if (!user.hostSince) {
         user.hostSince = new Date();
+      }
+      
+      // Update status in hostInfo
+      if (user.hostInfo) {
+        user.hostInfo.status = 'approved';
+      }
+    } else {
+      // If rejected, set host status to false
+      user.isHost = false;
+      
+      // Update status in hostInfo to rejected
+      if (user.hostInfo) {
+        user.hostInfo.status = 'rejected';
       }
     }
     

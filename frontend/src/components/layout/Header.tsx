@@ -106,8 +106,9 @@ const Header: React.FC = () => {
               <span className="ml-2 text-staynest-pink font-bold text-xl font-staynest">
                 StayNest
               </span>
-            </Link>{" "}
+            </Link>
           </div>
+
           {/* Middle search bar - only show on home page */}
           {location.pathname === "/" && (
             <div className="hidden md:block relative">
@@ -223,9 +224,9 @@ const Header: React.FC = () => {
             {/* Dropdown menu */}
             {isMenuOpen && (
               <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-staynest border border-staynest-gray-border font-staynest">
-                <div className="py-2">                {user ? (
-                    <>
-                      <div className="px-4 py-2 border-b border-staynest-gray-border">
+                <div className="py-2">
+                  {user ? (
+                    <>                      <div className="px-4 py-2 border-b border-staynest-gray-border">
                         <p className="font-medium text-staynest-dark-gray">
                           {user.name}
                         </p>
@@ -237,7 +238,6 @@ const Header: React.FC = () => {
                       {/* Host Section */}
                       {user.isHost && (
                         <>
-                          <div className="border-b border-staynest-gray-border my-1"></div>
                           <p className="px-4 py-1 text-xs font-medium text-staynest-light-gray">
                             Host Menu
                           </p>
@@ -266,7 +266,6 @@ const Header: React.FC = () => {
                       )}                      {/* Admin Section */}
                       {user.isAdmin && (
                         <>
-                          <div className="border-b border-staynest-gray-border my-1"></div>
                           <p className="px-4 py-1 text-xs font-medium text-staynest-light-gray">
                             Admin Menu
                           </p>
@@ -280,8 +279,7 @@ const Header: React.FC = () => {
                                 d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
                             </svg>
                             Dashboard
-                          </Link>
-                          <Link
+                          </Link>                          <Link
                             to="/admin/host-applications"
                             onClick={handleMenuItemClick}
                             className="flex items-center px-4 py-2 text-sm text-staynest-dark-gray hover:bg-staynest-background"
@@ -291,6 +289,17 @@ const Header: React.FC = () => {
                                 d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                             </svg>
                             Host Applications
+                          </Link>
+                          <Link
+                            to="/admin/hosts"
+                            onClick={handleMenuItemClick}
+                            className="flex items-center px-4 py-2 text-sm text-staynest-dark-gray hover:bg-staynest-background"
+                          >
+                            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
+                                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                            </svg>
+                            Manage Hosts
                           </Link>
                           <Link
                             to="/admin/pending-listings"
@@ -305,7 +314,6 @@ const Header: React.FC = () => {
                           </Link>
                         </>
                       )}                      {/* Guest Menu */}
-                      <div className="border-b border-staynest-gray-border my-1"></div>
                       <p className="px-4 py-1 text-xs font-medium text-staynest-light-gray">
                         Guest Menu
                       </p>
@@ -330,7 +338,8 @@ const Header: React.FC = () => {
                             d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                         </svg>
                         Favorites
-                      </Link>                      {!user.isHost && !user.isAdmin && (
+                      </Link>
+                      {!user.isHost && !user.isAdmin && (
                         <Link
                           to="/become-host"
                           onClick={handleMenuItemClick}
@@ -342,21 +351,7 @@ const Header: React.FC = () => {
                           </svg>
                           Become a Host
                         </Link>
-                      )}
-                      {user.isHost && (
-                        <Link
-                          to="/host/dashboard"
-                          onClick={handleMenuItemClick}
-                          className="flex items-center px-4 py-2 text-sm text-staynest-dark-gray hover:bg-staynest-background"
-                        >
-                          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-                              d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                          </svg>
-                          Host Dashboard
-                        </Link>
-                      )}{/* Account Settings */}
-                      <div className="border-b border-staynest-gray-border my-1"></div>
+                      )}                      {/* Account Settings */}
                       <p className="px-4 py-1 text-xs font-medium text-staynest-light-gray">
                         Account Settings
                       </p>

@@ -230,3 +230,43 @@ exports.reviewListing = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+
+// Admin-specific listing methods
+exports.createListingAsAdmin = async (req, res) => {
+  try {
+    // Admin can create listings with approved status by default
+    const listingData = {
+      ...req.body,
+      host: req.user.id, // Admin becomes the host
+      status: 'approved',
+      isApproved: true
+    };
+    
+    const listing = new Listing(listingData);
+    await listing.save();
+    
+    res.status(201).json(listing);
+  } catch (err) {
+    console.error('Error creating listing as admin:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+exports.updateListingAsAdmin = async (req, res) => {
+  try {
+    const listing = await Listing.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true }
+    );
+    
+    if (!listing) {
+      return res.status(404).json({ message: 'Listing not found' });
+    }
+    
+    res.json(listing);
+  } catch (err) {
+    console.error('Error updating listing as admin:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+};

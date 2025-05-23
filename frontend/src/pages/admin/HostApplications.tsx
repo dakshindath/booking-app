@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
 
@@ -13,6 +13,7 @@ interface HostApplication {
     address: string;
     bio: string;
     identification: string;
+    status?: string;
   };
   hostSince: string;
 }
@@ -23,12 +24,10 @@ const AdminHostApplications: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [actionLoading, setActionLoading] = useState<{ [key: string]: boolean }>({});
+  const [actionMessage, setActionMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
 
-  useEffect(() => {
-    fetchHostApplications();
-  }, [token]);
-
-  const fetchHostApplications = async () => {
+  // Using useCallback to prevent infinite re-rendering
+  const fetchHostApplications = useCallback(async () => {
     try {
       setLoading(true);
       
@@ -46,18 +45,21 @@ const AdminHostApplications: React.FC = () => {
       setError('Failed to load host applications. Please try again.');
       setLoading(false);
     }
-  };
+  }, [token]);
+  useEffect(() => {
+    fetchHostApplications();
+  }, [fetchHostApplications]);
 
   const handleApplicationAction = async (hostId: string, approve: boolean) => {
     try {
       setActionLoading(prev => ({ ...prev, [hostId]: true }));
-      
-      const config = {
+        const config = {
         headers: {
           Authorization: `Bearer ${token}`
         }
       };
 
+      // Make API call but we don't need to use the response
       await axios.post(
         `${API_URL}/host/applications/review`, 
         { hostId, approve }, 
@@ -67,11 +69,28 @@ const AdminHostApplications: React.FC = () => {
       // Remove the application from the list
       setApplications(applications.filter(app => app._id !== hostId));
       
+      // Set success message
+      setActionMessage({
+        type: 'success',
+        text: approve ? 'Application approved successfully!' : 'Application rejected successfully!'
+      });
+      
+      // Clear message after 3 seconds
+      setTimeout(() => setActionMessage(null), 3000);
+      
       setActionLoading(prev => ({ ...prev, [hostId]: false }));
     } catch (err) {
       console.error('Error processing host application:', err);
       setActionLoading(prev => ({ ...prev, [hostId]: false }));
-      alert('Failed to process host application. Please try again.');
+      
+      // Set error message
+      setActionMessage({
+        type: 'error',
+        text: `Failed to ${approve ? 'approve' : 'reject'} host application. Please try again.`
+      });
+      
+      // Clear message after 3 seconds
+      setTimeout(() => setActionMessage(null), 3000);
     }
   };
 
@@ -112,6 +131,15 @@ const AdminHostApplications: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold text-staynest-dark-gray mb-6">Host Applications</h1>
+      
+      {/* Action message notification */}
+      {actionMessage && (
+        <div className={`mb-4 p-4 rounded-lg ${
+          actionMessage.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+        } animate-fadeIn`}>
+          {actionMessage.text}
+        </div>
+      )}
       
       {applications.length === 0 ? (
         <div className="bg-white rounded-xl shadow-md p-8 text-center">

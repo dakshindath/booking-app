@@ -30,6 +30,7 @@ import AdminDashboard from './pages/admin/Dashboard';
 import AdminListings from './pages/admin/Listings';
 import AdminBookings from './pages/admin/Bookings';
 import AdminUsers from './pages/admin/Users';
+import AdminHosts from './pages/admin/Hosts';
 import AdminHostApplications from './pages/admin/HostApplications';
 import AdminPendingListings from './pages/admin/PendingListings';
 
@@ -156,6 +157,14 @@ const AppContent = () => {
             element={
               <AdminRoute>
                 <AdminUsers />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin/hosts"
+            element={
+              <AdminRoute>
+                <AdminHosts />
               </AdminRoute>
             }
           />

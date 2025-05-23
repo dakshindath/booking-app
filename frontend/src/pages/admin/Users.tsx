@@ -77,18 +77,49 @@ const Users: React.FC = () => {
         user.email.toLowerCase().includes(searchTerm.toLowerCase())
       )
     : users;
-  
-  if (loading) {
+    if (loading) {
     return (
-      <div className="flex justify-center items-center h-64 font-staynest">
-        <div className="animate-pulse flex space-x-4">
-          <div className="rounded-full bg-staynest-gray-border h-10 w-10"></div>
-          <div className="flex-1 space-y-4 py-1">
-            <div className="h-4 bg-staynest-gray-border rounded w-3/4"></div>
-            <div className="space-y-2">
-              <div className="h-4 bg-staynest-gray-border rounded"></div>
-              <div className="h-4 bg-staynest-gray-border rounded w-5/6"></div>
+      <div className="font-staynest max-w-6xl mx-auto p-4 md:p-6 min-h-screen bg-gradient-to-br from-staynest-background via-white to-pink-50">
+        {/* Loading Header */}
+        <div className="bg-gradient-to-r from-white to-staynest-background rounded-2xl p-4 md:p-8 shadow-md mb-8 animate-pulse">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+            <div>
+              <div className="h-8 bg-staynest-gray-border rounded w-64 mb-2"></div>
+              <div className="h-4 bg-staynest-gray-border rounded w-48"></div>
             </div>
+            <div className="mt-4 md:mt-0">
+              <div className="h-10 bg-staynest-gray-border rounded w-32"></div>
+            </div>
+          </div>
+        </div>
+
+        {/* Loading Search */}
+        <div className="mb-6 bg-white rounded-xl shadow-md border border-staynest-gray-border p-5 animate-pulse">
+          <div className="h-12 bg-staynest-gray-border rounded-lg"></div>
+        </div>
+
+        {/* Loading Table */}
+        <div className="bg-white rounded-xl shadow-sm border border-staynest-gray-border overflow-hidden animate-pulse">
+          <div className="bg-staynest-background p-4">
+            <div className="grid grid-cols-5 gap-4">
+              {[...Array(5)].map((_, i) => (
+                <div key={i} className="h-4 bg-staynest-gray-border rounded"></div>
+              ))}
+            </div>
+          </div>
+          <div className="divide-y divide-staynest-gray-border">
+            {[...Array(5)].map((_, i) => (
+              <div key={i} className="p-6 grid grid-cols-5 gap-4 items-center">
+                <div className="flex items-center space-x-3">
+                  <div className="h-10 w-10 bg-staynest-gray-border rounded-full"></div>
+                  <div className="h-4 bg-staynest-gray-border rounded w-24"></div>
+                </div>
+                <div className="h-4 bg-staynest-gray-border rounded w-32"></div>
+                <div className="h-6 bg-staynest-gray-border rounded w-16"></div>
+                <div className="h-4 bg-staynest-gray-border rounded w-20"></div>
+                <div className="h-4 bg-staynest-gray-border rounded w-16"></div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -111,18 +142,25 @@ const Users: React.FC = () => {
       </div>
     );
   }
-  
-  return (
-    <div className="font-staynest max-w-6xl mx-auto">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-semibold text-staynest-dark-gray">Manage Users</h1>
-        <span className="text-staynest-light-gray">Total: {users.length} users</span>
+    return (
+    <div className="font-staynest max-w-6xl mx-auto p-4 md:p-6">
+      <div className="bg-gradient-to-r from-white to-staynest-background rounded-2xl p-4 md:p-8 shadow-md mb-8">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+          <div>
+            <h1 className="text-3xl font-bold text-staynest-dark-gray">User Management</h1>
+            <p className="text-staynest-light-gray mt-2">Manage and monitor user accounts</p>
+          </div>
+          <div className="mt-4 md:mt-0 flex items-center">
+            <span className="bg-gradient-to-r from-staynest-pink to-pink-500 text-white px-4 py-2 rounded-lg font-medium shadow-sm">
+              Total: {users.length} users
+            </span>
+          </div>
+        </div>
       </div>
-      
-      <div className="mb-6 bg-white rounded-xl shadow-sm border border-staynest-gray-border p-4">
+        <div className="mb-6 bg-white rounded-xl shadow-md border border-staynest-gray-border p-5 hover:shadow-lg transition-all duration-300">
         <div className="relative">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <svg className="h-5 w-5 text-staynest-light-gray" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+            <svg className="h-5 w-5 text-staynest-pink" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </div>
@@ -130,9 +168,19 @@ const Users: React.FC = () => {
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search by name or email"
-            className="pl-10 w-full px-4 py-3 border border-staynest-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-staynest-pink"
+            placeholder="Search by name or email..."
+            className="pl-12 w-full px-4 py-3 border border-staynest-gray-border rounded-lg focus:outline-none focus:ring-2 focus:ring-staynest-pink transition-all duration-300 bg-staynest-background bg-opacity-30 focus:bg-white"
           />
+          {searchTerm && (
+            <button 
+              onClick={() => setSearchTerm('')}
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-staynest-light-gray hover:text-staynest-pink"
+            >
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          )}
         </div>
       </div>
       
@@ -144,32 +192,63 @@ const Users: React.FC = () => {
           <p className="text-staynest-dark-gray text-lg font-medium">No users found</p>
           <p className="text-staynest-light-gray">Try adjusting your search</p>
         </div>
-      ) : (
-        <div className="bg-white rounded-xl shadow-sm border border-staynest-gray-border overflow-hidden">
+      ) : (        <div className="bg-white rounded-xl shadow-md border border-staynest-gray-border overflow-hidden hover:shadow-lg transition-all duration-300">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-staynest-gray-border">
-              <thead className="bg-staynest-background">
+              <thead className="bg-gradient-to-r from-staynest-background to-pink-50">
                 <tr>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-staynest-dark-gray uppercase tracking-wider">User</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-staynest-dark-gray uppercase tracking-wider">Email</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-staynest-dark-gray uppercase tracking-wider">Role</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-staynest-dark-gray uppercase tracking-wider">Joined</th>
-                  <th className="px-6 py-4 text-right text-xs font-medium text-staynest-dark-gray uppercase tracking-wider">Actions</th>
+                  <th className="px-6 py-4 text-left text-xs text-staynest-dark-gray uppercase tracking-wider font-semibold">
+                    <div className="flex items-center space-x-1">
+                      <span>User</span>
+                      <svg className="w-4 h-4 text-staynest-pink opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                    </div>
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs text-staynest-dark-gray uppercase tracking-wider font-semibold">
+                    <div className="flex items-center space-x-1">
+                      <span>Email</span>
+                      <svg className="w-4 h-4 text-staynest-pink opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs text-staynest-dark-gray uppercase tracking-wider font-semibold">
+                    <div className="flex items-center space-x-1">
+                      <span>Role</span>
+                      <svg className="w-4 h-4 text-staynest-pink opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                      </svg>
+                    </div>
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs text-staynest-dark-gray uppercase tracking-wider font-semibold">
+                    <div className="flex items-center space-x-1">
+                      <span>Joined</span>
+                      <svg className="w-4 h-4 text-staynest-pink opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                  </th>
+                  <th className="px-6 py-4 text-right text-xs text-staynest-dark-gray uppercase tracking-wider font-semibold">
+                    <div className="flex items-center justify-end space-x-1">
+                      <span>Actions</span>
+                      <svg className="w-4 h-4 text-staynest-pink opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                    </div>
+                  </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-staynest-gray-border">
                 {filteredUsers.map((user) => (
                   <tr key={user._id} className="hover:bg-staynest-background transition-colors">
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <div className="h-10 w-10 flex-shrink-0 mr-3">
+                      <div className="flex items-center">                      <div className="flex-shrink-0 h-10 w-10">
                           {user.avatar ? (
-                            <img src={user.avatar} alt="" className="h-10 w-10 rounded-full object-cover" />
+                            <img src={user.avatar} alt="" className="h-10 w-10 rounded-full object-cover shadow-sm border border-staynest-pink-light border-opacity-20" />
                           ) : (
-                            <div className="h-10 w-10 rounded-full bg-staynest-pink bg-opacity-15 flex items-center justify-center">
-                              <span className="text-staynest-pink font-medium">
-                                {user.name.charAt(0).toUpperCase()}
-                              </span>
+                            <div className="h-10 w-10 rounded-full bg-gradient-to-br from-staynest-pink-light to-staynest-blue-light flex items-center justify-center text-white font-semibold shadow-sm">
+                              {user.name.charAt(0).toUpperCase()}
                             </div>
                           )}
                         </div>
