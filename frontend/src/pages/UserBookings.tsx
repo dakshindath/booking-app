@@ -233,7 +233,7 @@ const UserBookings: React.FC = () => {
           {displayedBookings.map((booking) => (
             <div key={booking._id} className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-staynest-gray-border">              <div className="md:flex">
                 <div className="md:w-1/3 h-48 md:h-52 relative bg-staynest-background overflow-hidden">
-                  {booking.listing.images && booking.listing.images.length > 0 ? (
+                  {booking.listing && booking.listing.images && booking.listing.images.length > 0 ? (
                     <div className="h-full">
                       <img 
                         src={booking.listing.images[0]} 
@@ -254,8 +254,8 @@ const UserBookings: React.FC = () => {
                       <span className="text-sm font-medium text-staynest-light-gray">
                         {format(new Date(booking.startDate), 'MMM d')} - {format(new Date(booking.endDate), 'MMM d, yyyy')}
                       </span>
-                      <h3 className="text-lg font-medium text-staynest-dark-gray mt-1">{booking.listing.title}</h3>
-                      <p className="text-staynest-light-gray text-sm mt-1">{booking.listing.location}</p>
+                      <h3 className="text-lg font-medium text-staynest-dark-gray mt-1">{booking.listing?.title || 'Listing Not Available'}</h3>
+                      <p className="text-staynest-light-gray text-sm mt-1">{booking.listing?.location || 'Location Not Available'}</p>
                     </div>
                     <span className={`hidden md:inline-block px-3 py-1 rounded-full text-xs font-medium ${getStatusBadgeClass(booking.status)}`}>
                       {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
@@ -274,9 +274,8 @@ const UserBookings: React.FC = () => {
                         </svg>
                         <span className="text-staynest-dark-gray font-medium">₹{booking.totalPrice.toLocaleString()}</span>
                       </div>
-                    </div>
-                      <div>
-                      {booking.status === 'confirmed' && new Date(booking.startDate) > today && (
+                    </div>                      <div>
+                      {booking.status === 'confirmed' && new Date(booking.startDate) > today && booking.listing && (
                         <Link 
                           to={`/listings/${booking.listing._id}`}
                           className="inline-block px-6 py-2.5 bg-gradient-to-r from-staynest-pink to-staynest-red text-white font-medium rounded-lg hover:shadow-md transition-all"
@@ -284,7 +283,7 @@ const UserBookings: React.FC = () => {
                           View Details
                         </Link>
                       )}
-                      {booking.status === 'completed' && (
+                      {booking.status === 'completed' && booking.listing && (
                         <div className="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-3">
                           <Link 
                             to={`/listings/${booking.listing._id}#reviews`}

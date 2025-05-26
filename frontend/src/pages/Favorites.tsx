@@ -34,10 +34,12 @@ const Favorites: React.FC = () => {
           headers: {
             Authorization: `Bearer ${token}`
           }
-        };
-
-        const response = await axios.get(`${API_URL}/favorites`, config);
-        setFavorites(response.data);
+        };        const response = await axios.get(`${API_URL}/favorites`, config);
+        // Filter out any null listings with proper type guard
+        const validFavorites = response.data.filter((listing: Listing | null): listing is Listing => 
+          listing !== null && listing._id != null
+        );
+        setFavorites(validFavorites);
         setLoading(false);
       } catch (err) {
         console.error('Error fetching favorites:', err);
@@ -203,8 +205,7 @@ const Favorites: React.FC = () => {
             Explore Listings
           </Link>
         </div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      ) : (        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {favorites.map((listing) => (
             <ListingCard key={listing._id} listing={listing} />
           ))}

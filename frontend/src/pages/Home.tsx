@@ -83,12 +83,15 @@ const Home: React.FC = () => {
           headers: {
             Authorization: `Bearer ${token}`
           }
-        };
-        
-        const response = await axios.get(`${API_URL}/favorites`, config);
+        };        const response = await axios.get(`${API_URL}/favorites`, config);
         const favoritesMap: { [key: string]: boolean } = {};
         
-        response.data.forEach((listing: Listing) => {
+        // Filter out null values and ensure proper typing
+        const validListings = response.data.filter((listing: Listing | null): listing is Listing => 
+          listing !== null && listing._id != null
+        );
+        
+        validListings.forEach((listing: Listing) => {
           favoritesMap[listing._id] = true;
         });
         

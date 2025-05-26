@@ -15,6 +15,9 @@ router.get('/profile/:id', auth, hostController.getHostProfile);
 // Get host's listings
 router.get('/listings', auth, hostController.getHostListings);
 
+// Get host's bookings
+router.get('/bookings', auth, hostController.getHostBookings);
+
 // Delete a host's listing
 router.delete('/listings/:id', auth, hostController.deleteHostListing);
 

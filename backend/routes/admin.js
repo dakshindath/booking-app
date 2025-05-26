@@ -21,6 +21,7 @@ router.put('/booking/:id', auth, admin, adminController.updateBookingStatus);
 router.get('/dashboard/stats', auth, admin, adminController.getDashboardStats);
 
 // Listing management
+router.get('/listings', auth, admin, adminController.getListingsWithBookingCounts);
 router.get('/listings/pending', auth, admin, listingController.getPendingListings);
 router.post('/listing', auth, admin, listingController.createListingAsAdmin);
 router.put('/listing/:id', auth, admin, listingController.updateListingAsAdmin);

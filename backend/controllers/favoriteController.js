@@ -49,8 +49,26 @@ exports.getUserFavorites = async (req, res) => {
             })
             .sort({ createdAt: -1 });
       
-        const favoriteListings = favorites.map(favorite => favorite.listing);
-        res.json(favoriteListings);
+        // Filter out favorites with null listings (deleted listings)
+        const validFavorites = [];
+        const invalidFavoriteIds = [];
+        
+        favorites.forEach(favorite => {
+            if (favorite.listing) {
+                validFavorites.push(favorite.listing);
+            } else {
+                invalidFavoriteIds.push(favorite._id);
+            }
+        });
+        
+        // Clean up invalid favorites in the background
+        if (invalidFavoriteIds.length > 0) {
+            Favorite.deleteMany({ _id: { $in: invalidFavoriteIds } }).catch(err => {
+                console.error('Error cleaning up invalid favorites:', err);
+            });
+        }
+        
+        res.json(validFavorites);
      } 
     catch (error) {
         console.error('Error getting favorites:', error);

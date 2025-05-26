@@ -148,3 +148,29 @@ exports.revokeHostStatus = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+
+exports.getListingsWithBookingCounts = async (req, res) => {
+  try {
+    // Get all listings
+    const listings = await Listing.find();
+    
+    // Get booking counts for each listing
+    const listingsWithCounts = await Promise.all(
+      listings.map(async (listing) => {
+        const bookingCount = await Booking.countDocuments({ 
+          listing: listing._id 
+        });
+        
+        return {
+          ...listing.toObject(),
+          bookingCount
+        };
+      })
+    );
+    
+    res.json(listingsWithCounts);
+  } catch (err) {
+    console.error('Error getting listings with booking counts:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+};

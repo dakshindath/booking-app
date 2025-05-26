@@ -76,10 +76,10 @@ const Reviews: React.FC<ReviewsProps> = ({ listingId }) => {
           const response = await axios.get(`${API_URL}/booking`, {
             headers: { Authorization: `Bearer ${token}` }
           });
-          
-          // Filter for completed bookings for this listing
+            // Filter for completed bookings for this listing
           const completedBookingsForListing = response.data.filter(
             (booking: any) => 
+              booking.listing && 
               booking.listing._id === listingId && 
               booking.status === 'completed'
           );

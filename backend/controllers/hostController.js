@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const Listing = require('../models/Listing');
+const Booking = require('../models/Booking');
 
 // Apply to become a host
 exports.applyToBeHost = async (req, res) => {
@@ -81,6 +82,28 @@ exports.getHostListings = async (req, res) => {
     res.json(listings);
   } catch (error) {
     console.error('Error fetching host listings:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// Get host's bookings (bookings for host's listings)
+exports.getHostBookings = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    
+    // First, get all listings owned by this host
+    const hostListings = await Listing.find({ host: userId }).select('_id');
+    const listingIds = hostListings.map(listing => listing._id);
+    
+    // Find all bookings for these listings
+    const bookings = await Booking.find({ listing: { $in: listingIds } })
+      .populate('user', 'name email')
+      .populate('listing', 'title location price images')
+      .sort({ createdAt: -1 });
+    
+    res.json(bookings);
+  } catch (error) {
+    console.error('Error fetching host bookings:', error);
     res.status(500).json({ message: 'Server error' });
   }
 };
